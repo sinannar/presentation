@@ -9,7 +9,7 @@ portable: true
 are optional; current online sources are the default for a web-news request.
 **Output:** preserved source notes, generated web research records under
 `sources/news/<topic>/`, and a traceable research brief/handoff in
-`authoring/`.
+`sources/workflows/`.
 
 Read `AGENTS.md` and the provided
 [`research-brief.md`](../../templates/research-brief.md),
@@ -42,7 +42,7 @@ publication. Never infer creator, licensing, or permission. If rights are
 unclear, record only the source link and the missing-rights issue; do not
 download or publish the image. Only download an image when reuse permission is
 verified and the user authorizes it, and keep that candidate under
-`authoring/assets/`, never within `sources/` or `sources/news/`. These candidate
+`sources/private/assets/`, never within `sources/news/`. These candidate
 assets are private working inputs, not part of the Markdown/TXT source
 inventory and not publishable.
 
@@ -50,19 +50,20 @@ Create the topic subdirectory under `sources/news/` from a safe, concise topic
 slug when needed, then write generated records there using
 `templates/source-news.md`; never overwrite an existing record without
 explicit authorization. Write the brief,
-evidence map, gaps, contradictions, and handoff only under ignored
-`authoring/`, using the matching templates. Keep exact source paths, claim
-support, and review status traceable. `sources/` and `authoring/` are local,
-Git-ignored working areas, not confidential storage.
+non-sensitive evidence map, gaps, contradictions, and handoff under
+`sources/workflows/`, using the matching templates. Keep exact source paths, claim
+support, and review status traceable. Generated `sources/news/` and
+`sources/workflows/` are trackable. Keep private details under ignored
+`sources/private/`; ignored files are not guaranteed confidential.
 
-Create `authoring/<topic>/research-references.json` as a JSON array of
+Create `sources/workflows/<topic>/research-references.json` as a JSON array of
 file-qualified references for the generated Markdown research records, with
 line ranges and full SHA-256 hashes in the form
 `sources/news/<topic>/<record>.md#L1-L8@sha256:<hash>`. Record that file in the
 handoff and validate it with:
 
 ```sh
-npm run validate:research -- sources/news/<topic> authoring/<topic>/research-references.json
+npm run validate:research -- sources/news/<topic> sources/workflows/<topic>/research-references.json
 ```
 
 Report the exact output. This validates record structure and reference

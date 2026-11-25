@@ -14,7 +14,7 @@ review when factual. Bundled speaker notes are public; exclude sensitive data
 and raw notes.
 
 In manual mode, when explicitly authorized, save the proposal and next-step handoff under
-`authoring/<topic>/` using repository templates. Keep them clearly marked
+`sources/workflows/<topic>/` using repository templates. Keep them clearly marked
 proposed/pending approval. Do not edit presentation-site files or record
 approval. Proceed to drafting only after a person explicitly approves that
 outline or a named revision and scope. Record unresolved questions instead of

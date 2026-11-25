@@ -11,10 +11,11 @@ runtime.
 - In manual mode show an outline and wait for human approval before producing
   public factual content. Explicit news-agent autopilot selects and records its
   own outline as described in `AGENTS.md`.
-- Preserve the boundary between `authoring/` drafts and `src/content/`
+- Preserve the boundary between `sources/workflows/` drafts and `src/content/`
   publication.
-- Keep evidence mappings in `authoring/`; put source paths in tracked content
-  only when approved for publication, and flag unsupported claims.
+- Keep non-sensitive evidence mappings in trackable `sources/workflows/` and
+  private mappings in ignored `sources/private/workflows/`; put private paths
+  in tracked content only when approved for publication, and flag unsupported claims.
 - Validate frontmatter, links, and referenced repository paths before handoff.
 
 ## Keynote customization

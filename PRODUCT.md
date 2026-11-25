@@ -25,4 +25,4 @@ databases, logins, CMS editing, and hosted model services.
 
 ## Publication boundary
 
-`sources/` and `authoring/` are local working areas. Only intentional content under `src/content/` and public assets are built. Bundled speaker notes are public. A file being ignored by Git is not a privacy guarantee.
+`sources/` holds research and workflow artifacts; generated `sources/news/` and `sources/workflows/` are trackable. Only intentional content under `src/content/` and public assets are built. Bundled speaker notes are public. A file being ignored by Git is not a privacy guarantee.

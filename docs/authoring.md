@@ -16,11 +16,13 @@ not independent review.
 
 ## 1. Intake
 
-Place Markdown or plain-text notes under `sources/`. Keep the original files unchanged. Run `npm run validate:sources` to confirm which files are available.
+Place original Markdown or plain-text notes under ignored `sources/private/`.
+Keep the original files unchanged. Run `npm run validate:sources` to confirm
+which files are available; it excludes workflow artifacts and candidate assets.
 
 ## 2. Prepare
 
-Use `.agents/skills/source-grounding/SKILL.md` and `.agents/skills/outline-approval/SKILL.md`. The agent should create a source inventory and a proposed outline in `authoring/`. Each claim should point to a file-qualified source range and content hash.
+Use `.agents/skills/source-grounding/SKILL.md` and `.agents/skills/outline-approval/SKILL.md`. The agent should create a source inventory and a proposed outline in `sources/workflows/`. Each claim should point to a file-qualified source range and content hash.
 
 ## 3. Approve the outline
 
@@ -33,7 +35,7 @@ in the outline and evidence map when they contain factual material.
 
 ## 4. Author
 
-Use `.agents/skills/markdown-authoring/SKILL.md` or edit `src/content/docs/*.md` and `src/content/news/*.md` directly. Write concise public copy; do not paste entire source paragraphs. Keep private source mappings in ignored `authoring/` records. Only put a path or hash in a tracked `sourceRefs` field if it is approved for publication: tracked frontmatter is public in a public repository even when the site does not render it. Ask the presentation editor to adapt the existing keynote's visual design and behavior as needed.
+Use `.agents/skills/markdown-authoring/SKILL.md` or edit `src/content/docs/*.md` and `src/content/news/*.md` directly. Write concise public copy; do not paste entire source paragraphs. Keep private source mappings in ignored `sources/private/workflows/`. Only put a path or hash in a tracked `sourceRefs` field if it is approved for publication: tracked frontmatter is public in a public repository even when the site does not render it. Ask the presentation editor to adapt the existing keynote's visual design and behavior as needed.
 
 The optional scene fields are described in [the content model](content-model.md).
 Speaker notes

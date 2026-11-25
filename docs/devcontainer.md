@@ -50,7 +50,8 @@ outside the workspace may be lost on rebuild.
 Codespaces stores the checkout and working files on GitHub's infrastructure;
 usage may incur Codespaces and provider charges. Forwarded ports have their own
 visibility settings: keep the preview private unless you intend to share it.
-Files in `sources/` and `authoring/` are Git-ignored, not automatically private:
+Generated files in `sources/news/` and `sources/workflows/` are trackable.
+Other files under `sources/` are Git-ignored but not automatically private:
 placing notes in a Codespace uploads them to that cloud workspace, and agents
 may send accessed content to their configured providers. Only use notes you are
 authorized to place there and share with the selected provider. Review data

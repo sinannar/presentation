@@ -14,6 +14,8 @@ export function inventorySources(root: string, sourceDir: string): { files: Sour
   const base = resolve(root);
   const directory = resolve(base, sourceDir);
   const local = relative(base, directory);
+  // Generated workflow metadata and private working assets are not evidence.
+  const excludePaths = local === 'sources' ? ['sources/workflows', 'sources/private/assets', 'sources/private/workflows'] : [];
   if (!local || local.startsWith(`..${sep}`) || local === '..' || isAbsolute(local)) {
     return { files, errors: ['source directory must be inside the project'] };
   }
@@ -38,7 +40,10 @@ export function inventorySources(root: string, sourceDir: string): { files: Sour
       if (entry.name === '.gitkeep' && entry.isFile()) continue;
       if (/[\x00-\x1f\x7f]/.test(name)) { errors.push('source path contains control characters'); continue; }
       if (entry.isSymbolicLink()) { errors.push(`${name}: symlink is not allowed`); continue; }
-      if (entry.isDirectory()) { walk(path); continue; }
+      if (entry.isDirectory()) {
+        if (!excludePaths.includes(name)) walk(path);
+        continue;
+      }
       if (!entry.isFile() || !/\.(md|txt)$/i.test(entry.name)) { errors.push(`${name}: unsupported file`); continue; }
       try {
         const bytes = readFileSync(path);

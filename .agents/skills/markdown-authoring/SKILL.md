@@ -9,7 +9,7 @@ Use only the supplied research/review handoff and exact human-approved manual
 outline or explicitly selected news-agent autopilot outline and scope. Verify supplied local source paths and SHA-256 hashes
 against the handoff before drafting; if files are unavailable or hashes differ,
 stop. Hash matches establish file identity, not factual accuracy. Keep working
-material in `authoring/` and public-page drafts in `src/content/docs/` or
+material in `sources/workflows/` and public-page drafts in `src/content/docs/` or
 `src/content/news/`. Match `src/content.config.ts`: docs need `title`,
 `summary`, `category`, and may use `sourceRefs`; news needs a real `published`
 date and valid link URLs. Keep unfinished or unapproved entries at
@@ -36,5 +36,5 @@ draft flag, publish, or commit. In explicit autopilot follow
 `news-orchestration` for local promotion and opt-in checkpoints. If
 authorized, record verified hashes, the approved outline revision, ordered
 IDs, omitted drafts, checks, and unresolved issues in the
-`authoring/<topic>/` readiness handoff; otherwise return that report without
+`sources/workflows/<topic>/` readiness handoff; otherwise return that report without
 writing it.

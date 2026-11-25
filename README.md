@@ -56,7 +56,7 @@ npm run init:presentation # create a local brief, without overwriting
 npm run validate         # public content checks
 npm run validate:sources # inventory available local inputs
 npm run validate:research # validate source-news metadata (local inputs required)
-npm run validate:news-run -- authoring/<topic>/news-run.json # validate autopilot state
+npm run validate:news-run -- sources/workflows/<topic>/news-run.json # validate autopilot state
 npm run validate:agents  # check shipped agent and skill assets
 npm run check            # validation + Astro type checks
 npm run build            # static production build
@@ -96,10 +96,10 @@ Commits are off by default. To opt in for a particular run, add:
 
 In the same workspace, resume explicitly:
 
-> Resume news-agent autopilot for [topic] using `authoring/[topic]/news-run.json`
+> Resume news-agent autopilot for [topic] using `sources/workflows/[topic]/news-run.json`
 > and the original scope. [Include the commit opt-in and exact scope again if wanted.]
 
-Run state does not grant authorization or prove facts. Ignored working files do
+Run state does not grant authorization or prove facts. Uncommitted working files do
 not automatically transfer to isolated cloud sessions. Host permissions, web
 access and platform-managed commits vary; see the [agent guide](docs/agents-and-skills.md).
 
@@ -115,15 +115,15 @@ For example, replace the event and dates below:
 1. **Source researcher:** “Research [specific .NET conference] announcements
    from [start date] to [end date] for [audience]. Verify primary sources,
    write original source-news records in `sources/news/dotnet/`, retain claim
-   URLs and image rights evidence, and save a handoff in `authoring/dotnet/`.
+   URLs and image rights evidence, and save a handoff in `sources/workflows/dotnet/`.
    Do not publish.”
 2. **Publication reviewer:** “In source-review mode, independently verify and correct the generated
    records in `sources/news/dotnet/`, record changes and unresolved claims in
-   `authoring/dotnet/`, and update the handoff. Do not edit the site.”
+   `sources/workflows/dotnet/`, and update the handoff. Do not edit the site.”
 3. **Outline planner:** “Use the reviewed records and handoff for
    `dotnet` to propose the presentation sections, ordered stories, highlights,
    images and evidence. Save the proposed outline and handoff in
-   `authoring/dotnet/` and stop for my approval.”
+   `sources/workflows/dotnet/` and stop for my approval.”
 4. **Presentation editor:** “Using my approval of [outline revision], the
    reviewed sources and handoff, adapt the existing presentation, create
    evidence-backed drafts and configure scene order. Report checks and
@@ -140,13 +140,16 @@ as unavailable to Copilot cloud agents; GitHub web sessions need another
 supported, permitted web-access tool configured for live research, or
 user-supplied source material. Do not assume selecting an agent provides web access.
 
-In a single Codespace, ignored `sources/` and `authoring/` files remain in that
-workspace. Separate GitHub web-agent sessions may use separate checkouts and
-cannot see untracked/ignored files from another session. To hand off between
-them, deliberately share only reviewed non-sensitive research and handoffs on
-a branch accessible to the next session, using your normal authorized Git/PR
-workflow; explicitly opt in to tracking the chosen ignored files. Never expose
-private notes or credentials to achieve this. See the [complete guide](docs/agents-and-skills.md)
+Generated `sources/news/` research and `sources/workflows/` briefs, reviews,
+outlines and run state are trackable; inspect them before committing. Other
+`sources/` paths, including `sources/private/`, remain ignored for original
+notes and private working files. Neither ignored files nor uncommitted changes
+automatically transfer to separate agent workspaces. Share only reviewed,
+non-sensitive artifacts on an accessible branch with explicit Git
+authorization. Never expose private notes or credentials. Existing `authoring/`
+files remain ignored and are not moved automatically; when migrating an old
+run, review paths and hashes and revalidate affected stages before resuming.
+See the [complete guide](docs/agents-and-skills.md)
 for exact handoffs, agent and skill tables, and image/privacy rules.
 
 `AGENTS.md` is the canonical repository contract; `docs/authoring.md` describes

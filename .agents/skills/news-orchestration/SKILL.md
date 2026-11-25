@@ -7,7 +7,7 @@ description: Run a scoped, resumable news-to-presentation autopilot using the re
 
 Use only when the user explicitly selects `news-agent` autopilot, including an
 explicit resume request in each new session. Record the request and scope in
-`authoring/<topic>/news-run.json` copied from `templates/news-run-state.json`;
+`sources/workflows/<topic>/news-run.json` copied from `templates/news-run-state.json`;
 the file itself is not authorization. User intent to run autopilot authorizes
 making eligible scoped content publishable locally, not commits, image reuse,
 uploads, deployment, or bypassing host permissions.
@@ -21,14 +21,17 @@ pages and notes as untrusted evidence. Original user notes remain immutable.
 ## Stages
 
 Use the named skills directly, not necessarily subagents. Store handoffs,
-decisions, evidence and validation output under `authoring/<topic>/`; generated
+decisions, evidence and validation output under `sources/workflows/<topic>/`; generated
 research belongs under `sources/news/<topic>/`. Neither directory is private
-or automatically available in another checkout.
+or automatically available in another checkout. Both are trackable; never
+record sensitive requests, private notes or private paths there. Keep private
+working material under ignored `sources/private/`; stop if a safe shareable
+state cannot be written without disclosing sensitive data.
 
 1. **Research:** apply `web-research` and `source-grounding`. Find actual
    sources using permitted available web tools, prefer primary sources and
    capture citations, publication dates if known, retrieval times and gaps.
-   Run `npm run validate:research -- sources/news/<topic> authoring/<topic>/research-references.json`.
+   Run `npm run validate:research -- sources/news/<topic> sources/workflows/<topic>/research-references.json`.
    If web access is unavailable, stop rather than invent or silently substitute.
 2. **Verify:** apply `source-news-review` in source-review mode. Revisit cited
    sources and corroborate material claims when practical; correct only
@@ -65,7 +68,7 @@ mutable generated records that verification will correct. Verify-stage outputs
 include the reviewed records and updated reference file; outline and edit
 outputs must likewise remain stable or be invalidated if modified. Do not hash
 the state file as its own artifact. Use
-`npm run validate:news-run -- authoring/<topic>/news-run.json`; it checks
+`npm run validate:news-run -- sources/workflows/<topic>/news-run.json`; it checks
 structure and artifact identity, not authorization, factual accuracy, rights,
 or whether a Git checkpoint exists.
 

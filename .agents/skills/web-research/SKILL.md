@@ -1,6 +1,6 @@
 ---
 name: web-research
-description: Gather current web evidence into traceable, private source-news records when web tools are available.
+description: Gather current web evidence into traceable source-news records when web tools are available.
 ---
 
 # Web research
@@ -30,21 +30,22 @@ description: Gather current web evidence into traceable, private source-news rec
    rights are unclear, record only the source link and rights gap: do not
    download or publish it. Download only after verifying reuse permission and
    explicit user authorization; keep permitted candidate files under ignored
-   `authoring/assets/`, outside `sources/` and the Markdown/TXT source
+   `sources/private/assets/`, outside `sources/news/` and the Markdown/TXT source
    inventory. Candidate assets are not public content.
 7. Save generated records only in the authorized
    `sources/news/<topic>/`, following `templates/source-news.md`. Save the
-   claim map, gaps, brief, and handoff only under ignored `authoring/`.
+   non-sensitive claim map, gaps, brief, and handoff under `sources/workflows/`.
+   These paths are trackable; keep private details in `sources/private/workflows/`.
    Keep image candidate files and JSON metadata out of the inventoried
    source-news directory; it is scanned for Markdown/TXT records.
-8. Create `authoring/<topic>/research-references.json` as a JSON array of
+8. Create `sources/workflows/<topic>/research-references.json` as a JSON array of
    exact source-news record references, including line ranges and full SHA-256
    hashes, such as
    `sources/news/<topic>/<record>.md#L1-L8@sha256:<hash>`. Include its path in
    the workflow handoff and run:
 
    ```sh
-   npm run validate:research -- sources/news/<topic> authoring/<topic>/research-references.json
+   npm run validate:research -- sources/news/<topic> sources/workflows/<topic>/research-references.json
    ```
 
    Report the exact result. The command checks record metadata and reference
@@ -54,5 +55,6 @@ description: Gather current web evidence into traceable, private source-news rec
    workflow hand off to `publication-reviewer` in `source-review` mode; in
    explicit news-agent autopilot continue with the source-review skill directly.
 
-Local source notes and authoring outputs are Git-ignored, not confidential, and
-not automatically shared between separate sessions.
+Original notes and private working outputs are Git-ignored, not confidential.
+Generated records and workflow outputs are trackable but are not shared across
+checkouts until committed and made available on an accessible branch.

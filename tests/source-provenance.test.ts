@@ -1,6 +1,7 @@
 import { strict as assert } from 'node:assert';
 import { createHash } from 'node:crypto';
-import { mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { test } from 'node:test';
 import { checkSourceRefs, inventorySources, sourceRef } from '../scripts/source-inventory';
@@ -67,4 +68,33 @@ test('optional content evidence check catches missing, stale and invalid ranges'
   writeFileSync(join(root, 'sources', 'note.txt'), 'changed\ntwo\n');
   assert.match(checkContentRefs(root, inventorySources(root, 'sources').files)[0], /stale/);
   assert.match(checkContentRefs(root, [])[0], /not found/);
+});
+
+test('default source inventory excludes workflow metadata and candidate assets', (t) => {
+  const root = fixture(t);
+  mkdirSync(join(root, 'sources', 'workflows', 'topic'), { recursive: true });
+  mkdirSync(join(root, 'sources', 'private', 'assets'), { recursive: true });
+  mkdirSync(join(root, 'sources', 'private', 'workflows'), { recursive: true });
+  mkdirSync(join(root, 'sources', 'news', 'topic'), { recursive: true });
+  writeFileSync(join(root, 'sources', 'news', 'topic', 'record.md'), 'Evidence\n');
+  writeFileSync(join(root, 'sources', 'workflows', 'topic', 'state.json'), '{}');
+  writeFileSync(join(root, 'sources', 'workflows', 'topic', 'outline.md'), 'Derived outline\n');
+  writeFileSync(join(root, 'sources', 'private', 'assets', 'candidate.png'), 'image');
+  writeFileSync(join(root, 'sources', 'private', 'workflows', 'state.json'), '{}');
+  const result = inventorySources(root, 'sources');
+  assert.deepEqual(result.errors, []);
+  assert.deepEqual(result.files.map((file) => file.path), ['sources/news/topic/record.md']);
+  assert.match(inventorySources(root, 'sources/workflows').errors.join(' '), /unsupported file/);
+});
+
+test('only generated artifact directories are trackable by default', (t) => {
+  const root = fixture(t);
+  assert.equal(spawnSync('git', ['init', '-q', root]).status, 0);
+  copyFileSync(join(process.cwd(), '.gitignore'), join(root, '.gitignore'));
+  const ignored = (path: string) => spawnSync('git', ['check-ignore', '-q', '--no-index', path], { cwd: root }).status;
+  assert.equal(ignored('sources/news/event/story.md'), 1);
+  assert.equal(ignored('sources/workflows/event/outline.md'), 1);
+  assert.equal(ignored('sources/private/notes.md'), 0);
+  assert.equal(ignored('sources/notes.md'), 0);
+  assert.equal(ignored('authoring/old.md'), 0);
 });

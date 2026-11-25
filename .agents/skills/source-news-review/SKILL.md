@@ -20,7 +20,7 @@ image-rights assertions.
 
 You may correct only generated records in the exact user-authorized
 `sources/news/<topic>/` directory and the associated review/handoff files under
-`authoring/`. Preserve original notes and pre-existing unrelated records.
+`sources/workflows/`. Preserve original notes and pre-existing unrelated records.
 Record changed claims, evidence, before/after hashes, unresolved issues, and
 readiness for outlining. Do not invent evidence or draft/publicize content.
 After corrections, update the handoff's JSON source references with the

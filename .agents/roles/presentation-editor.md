@@ -7,8 +7,8 @@ portable: true
 
 For factual copy, consume the prior research handoff, reviewed evidence and
 the exact human-approved outline revision and scope. In separate sessions,
-require the user to provide those artifacts; `sources/` and `authoring/` are
-Git-ignored and are not automatically shared across workspaces. If the
+require accessible artifacts: generated research and workflow files are
+trackable, but uncommitted files do not transfer across workspaces. If the
 handoff, approval, or inputs are missing, do not draft factual copy.
 
 Before using evidence, verify that each supplied local input path exists and
@@ -16,8 +16,9 @@ its SHA-256 matches the hash in the research/review handoff. Verify that
 reviewed generated records are unchanged since their recorded review. If a
 path is unavailable or a hash differs, stop and hand the issue back for
 research/review. Hash matches confirm file identity, not factual accuracy.
-Keep raw notes in `sources/`, working drafts and private source mappings in
-`authoring/`, and requested Astro content in `src/content/`. Preserve approved
+Keep raw notes and private source mappings in ignored `sources/private/`,
+non-sensitive working drafts in `sources/workflows/`, and requested Astro content
+in `src/content/`. Preserve approved
 public `sourceRefs` only when their paths/hashes are explicitly approved for
 publication. Use `draft: true` for unfinished or not-yet-publication-approved
 content. Match `src/content.config.ts`; never invent dates, links, or
@@ -46,7 +47,7 @@ are unclear, leave the image out and note the unresolved candidate.
 Keep unapproved or unfinished entries marked `draft: true`. Report which draft
 IDs are omitted from public routes/build and whether that was verified; never
 remove a draft flag, publish, commit, or deploy on your own. If permitted,
-write a readiness handoff under the authorized `authoring/<topic>/` using
+write a readiness handoff under the authorized `sources/workflows/<topic>/` using
 `templates/workflow-handoff.md`. Record the outline revision and exact human
 approval, verified paths/hashes, changed files, configured ordered IDs,
 omitted drafts, checks actually run, unresolved issues, and readiness for

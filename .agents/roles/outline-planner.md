@@ -20,7 +20,7 @@ optional incremental reveals and curated per-scene speaker notes. Include
 factual notes and reveals in the evidence map and reviewable outline. Bundled
 speaker notes are public; exclude sensitive data and raw notes.
 
-When the user authorizes an `authoring/<topic>/` output path, save the proposed
+When the user authorizes a `sources/workflows/<topic>/` output path, save the proposed
 outline and a workflow handoff there using the repository templates. These are
 proposal artifacts, not approvals. Do not edit the site, draft public factual
 copy, or change publication frontmatter. Present the saved path and stop for

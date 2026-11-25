@@ -33,7 +33,7 @@ agent to read the matching canonical role and skill files directly.
 | [news-orchestration](../.agents/skills/news-orchestration/SKILL.md) | Coordinate stages, state, resume and optional scoped checkpoints. | “Resume news-agent autopilot for [topic] from the run state; do not commit.” |
 | [web-research](../.agents/skills/web-research/SKILL.md) | Find and inspect original sources; create attributed source-news records. | “Use web-research for [event] during [dates]; flag inaccessible sources.” |
 | [source-news-review](../.agents/skills/source-news-review/SKILL.md) | Verify and correct generated research records, recording evidence and changes. | “Use source-news-review on `sources/news/event/`; report unresolved claims.” |
-| [source-grounding](../.agents/skills/source-grounding/SKILL.md) | Map claims to file-qualified ranges and hashes. | “Build an evidence map for the reviewed notes, keeping private paths in `authoring/`.” |
+| [source-grounding](../.agents/skills/source-grounding/SKILL.md) | Map claims to file-qualified ranges and hashes. | “Build an evidence map; keep private paths in `sources/private/workflows/`.” |
 | [outline-approval](../.agents/skills/outline-approval/SKILL.md) | Propose an evidence-backed outline and stop for approval. | “Use outline-approval and wait for approval of the named revision.” |
 | [markdown-authoring](../.agents/skills/markdown-authoring/SKILL.md) | Write schema-compatible drafts from an approved outline. | “Draft the approved news with public links and `draft: true`.” |
 | [keynote-customization](../.agents/skills/keynote-customization/SKILL.md) | Adapt the existing keynote, theme, components, and interactions. | “Improve contrast and mobile layout without changing factual content.” |
@@ -52,9 +52,9 @@ for the run with an exact non-sensitive scope. See the [start, resume and
 checkpoint prompts](../README.md#one-agent-autopilot).
 
 Each completed stage records checks and artifact hashes in
-`authoring/<topic>/news-run.json` from
+`sources/workflows/<topic>/news-run.json` from
 [`templates/news-run-state.json`](../templates/news-run-state.json). Run
-`npm run validate:news-run -- authoring/<topic>/news-run.json`; this validates
+`npm run validate:news-run -- sources/workflows/<topic>/news-run.json`; this validates
 structure and current artifact identity, not facts, rights, authorization or
 Git history. Changes invalidate affected stages and their dependents.
 Explicitly request resume in every new session. Some hosts manage commits and
@@ -87,7 +87,7 @@ cannot guarantee stage-level checkpoints.
 3. **Review research.** Ask the publication reviewer: “Verify the generated
    records in `sources/news/dotnet/` in source-review mode against the cited pages. Correct supported
    errors there, record before/after hashes, evidence and unresolved issues in
-   `authoring/dotnet/`, and update the handoff; do not edit the site.” Use
+   `sources/workflows/dotnet/`, and update the handoff; do not edit the site.” Use
    [`templates/research-review.md`](../templates/research-review.md). Resolve
    material conflicts before proceeding. A reviewer without web access cannot
    claim independent verification.
@@ -120,18 +120,17 @@ change invalidates dependent review and may require a new outline approval.
 metadata. These checks do not prove facts, rights, or approvals. For automated
 stale-reference checks, pass a JSON file containing an array of
 `path#L1-L2@sha256:<hash>` references as a second argument:
-`npm run validate:research -- sources/news/dotnet authoring/dotnet/references.json`.
+`npm run validate:research -- sources/news/dotnet sources/workflows/dotnet/references.json`.
 
 ## Moving between sessions
 
-Within the same Codespace/local workspace, the next session can read its
-ignored files directly. Cloud agents on GitHub can use separate checkouts:
-ignored `sources/` and `authoring/` files do **not** automatically travel
-between sessions. Review and sanitize files first, then explicitly authorize
-tracking the exact non-sensitive research and handoffs on a shared branch via
-your usual Git/PR workflow; the next agent must use that branch. For example,
-after inspecting the files, `git add -f -- sources/news/dotnet/ authoring/dotnet/`
-opts those paths into Git; commit/push only when separately authorized. Tracked
+Within the same workspace, the next session can read local files directly.
+Cloud agents can use separate checkouts. `sources/news/` and
+`sources/workflows/` are trackable, but uncommitted files do not travel
+between checkouts. Review and sanitize first, then explicitly authorize sharing
+the exact non-sensitive files on a branch accessible to the next agent.
+Other source paths, including `sources/private/`, remain ignored. Existing
+`authoring/` files remain ignored and are not moved automatically. Tracked
 files and Git history in a public repository are public, even if later removed.
 Do not upload private notes, credentials, or image candidates this way.
 GitHub-hosted session behavior, permissions, web access, and handoff availability
@@ -141,13 +140,14 @@ state or automatically merge changes.
 ## Image and privacy boundaries
 
 Use images only when reuse rights and attribution are established. Keep
-candidates under ignored `authoring/assets/`, outside the Markdown/TXT source
+candidates under ignored `sources/private/assets/`, outside the Markdown/TXT source
 inventory. If permission is unclear, record the source link and omit the image.
 Only explicitly approved assets belong under `public/images/`; metadata and
 human review must preserve credit and the license/permission source. An
 attribution field is not proof of permission.
 
-`sources/` and `authoring/` are ignored, not guaranteed private. A cloud
+`sources/news/` and `sources/workflows/` are trackable; keep sensitive material
+in ignored `sources/private/`, which is not guaranteed private either. A cloud
 workspace or model provider may receive files used there. Do not put private
 paths or hashes in tracked `sourceRefs` unless approved for publication.
 Bundled speaker notes are public even in presenter view. See

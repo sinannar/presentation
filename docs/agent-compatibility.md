@@ -103,8 +103,9 @@ do not infer success from the existence of files or a successful build. Use
 `git status --short` before and after the test to check for unexpected edits.
 Do not commit or publish as part of a smoke test.
 
-`sources/` and `authoring/` are ignored working areas. Isolated GitHub cloud
-sessions cannot automatically share ignored files; the
+Generated `sources/news/` and `sources/workflows/` are trackable; other source
+paths including `sources/private/` are ignored. Isolated GitHub cloud
+sessions cannot automatically share uncommitted files; the
 [workflow guide](agents-and-skills.md#moving-between-sessions) explains
 explicitly sharing sanitized handoffs on a branch. Never upload private notes
 or credentials implicitly. Tracked files and bundled speaker notes in a

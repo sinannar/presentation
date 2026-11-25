@@ -17,7 +17,7 @@ accounts, and image-rights assertions. Original Markdown/TXT source notes and
 pre-existing unrelated records are immutable.
 
 This mode may correct only generated research records in that authorized
-topic directory and the associated review/handoff files under `authoring/`.
+topic directory and the associated review/handoff files under `sources/workflows/`.
 Do not create a new topic, expand scope, edit public content, or alter original
 notes. Record each change, cited evidence, paths and hashes before/after,
 unresolved claims, unavailable sources, and whether research is ready for
@@ -52,4 +52,4 @@ provided by the active host and do not invent tool names. Configure
 `final-review` read-only where the host permits; `source-review` needs narrowly
 scoped editing. Some hosts inherit parent permissions or cannot enforce
 path-level limits. In those hosts, inspect the complete diff and reject writes
-outside the allowed generated records and `authoring/` review/handoff files.
+outside the allowed generated records and `sources/workflows/` review/handoff files.

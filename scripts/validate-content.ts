@@ -6,6 +6,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import { checkSourceRefs, type SourceFile } from './source-inventory';
+import { imageIssues } from '../src/lib/content-image';
 
 const require = createRequire(import.meta.url);
 const yaml = require('js-yaml') as { load: (text: string) => unknown };
@@ -36,6 +37,9 @@ export function validateMarkdown(text: string): string[] {
   if (error) return [error];
   const errors: string[] = [];
   if (text.includes('TODO')) errors.push('contains TODO');
+  if (data.image !== undefined) {
+    for (const issue of imageIssues(data.image)) errors.push(`image.${issue.field}: ${issue.message}`);
+  }
   if (Array.isArray(data.links)) {
     for (const link of data.links) {
       if (link && typeof link === 'object' && 'url' in link && (typeof link.url !== 'string' || !safeUrl(link.url))) errors.push('unsafe frontmatter link URL');

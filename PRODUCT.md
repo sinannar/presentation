@@ -12,13 +12,16 @@ This repository is a reusable, one-site-per-repository keynote template. It star
 - Agent-assisted changes to the existing presentation's content, theme, styling, animations, and components.
 - Curated Markdown content with validated frontmatter.
 - Local `.md` and `.txt` source inventory.
+- Agent-directed web research, reviewed source-news handoffs, and an
+  optional curated presentation order. Web access depends on the chosen host.
 - Source-grounded, human-approved authoring workflow.
 - Agent-neutral roles and skills plus GitHub Copilot agent profiles.
 - GitHub Pages build and deployment.
 
 ## Version 1 excludes
 
-PDF/DOCX/PPTX ingestion, web crawling, automatic research, databases, logins, CMS editing, and hosted model services.
+PDF/DOCX/PPTX ingestion, scheduled crawling, autonomous background research,
+databases, logins, CMS editing, and hosted model services.
 
 ## Publication boundary
 

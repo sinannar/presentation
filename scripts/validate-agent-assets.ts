@@ -5,10 +5,17 @@ import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('..', import.meta.url));
 const errors: string[] = [];
 const roles = ['source-researcher', 'outline-planner', 'presentation-editor', 'publication-reviewer'];
-const skills = ['source-grounding', 'outline-approval', 'markdown-authoring', 'keynote-customization', 'publication-boundaries', 'asset-validation'];
+const skills = ['source-grounding', 'web-research', 'source-news-review', 'outline-approval', 'markdown-authoring', 'keynote-customization', 'publication-boundaries', 'asset-validation'];
 const required = [
   'AGENTS.md',
   'CLAUDE.md',
+  'README.md',
+  'package.json',
+  'scripts/validate-research.ts',
+  'templates/research-brief.md',
+  'templates/source-news.md',
+  'templates/research-review.md',
+  'templates/workflow-handoff.md',
   '.github/copilot-instructions.md',
   'docs/agents-and-skills.md',
   'docs/agent-compatibility.md',
@@ -38,6 +45,17 @@ function checkFrontmatter(path: string, fields: string[]) {
 
 for (const path of required.map((file) => join(root, file))) {
   if (!existsSync(path)) errors.push(`${display(path)}: required file is missing`);
+}
+const manifestPath = join(root, 'package.json');
+if (existsSync(manifestPath)) {
+  try {
+    const scripts = JSON.parse(text(manifestPath)).scripts as Record<string, unknown> | undefined;
+    if (typeof scripts?.['validate:research'] !== 'string' || !scripts['validate:research'].includes('scripts/validate-research.ts')) {
+      errors.push('package.json: validate:research must run scripts/validate-research.ts');
+    }
+  } catch {
+    errors.push('package.json: invalid JSON');
+  }
 }
 const claudeInstructions = join(root, 'CLAUDE.md');
 if (existsSync(claudeInstructions) && !text(claudeInstructions).includes('@AGENTS.md')) {
@@ -69,16 +87,16 @@ for (const entry of readdirSync(join(root, '.agents/skills'))) {
   if (statSync(join(root, '.agents/skills', entry)).isDirectory() && existsSync(path)) {
     checkFrontmatter(path, ['name', 'description']);
   }
-  for (const name of skills) {
-    const canonical = join(root, '.agents/skills', name, 'SKILL.md');
-    const adapter = join(root, '.claude/skills', name, 'SKILL.md');
-    if (!existsSync(canonical) || !existsSync(adapter)) continue;
-    checkFrontmatter(adapter, ['name', 'description']);
-    const getField = (path: string, field: string) => frontmatter(path)?.match(new RegExp(`^${field}:\\s*(.+)$`, 'm'))?.[1];
-    if (getField(adapter, 'name') !== name || getField(canonical, 'name') !== name) errors.push(`${display(adapter)}: skill name mismatch`);
-    if (getField(adapter, 'description') !== getField(canonical, 'description')) errors.push(`${display(adapter)}: description differs from canonical skill`);
-    if (!text(adapter).includes(`.agents/skills/${name}/SKILL.md`)) errors.push(`${display(adapter)}: missing matching skill reference`);
-  }
+}
+for (const name of skills) {
+  const canonical = join(root, '.agents/skills', name, 'SKILL.md');
+  const adapter = join(root, '.claude/skills', name, 'SKILL.md');
+  if (!existsSync(canonical) || !existsSync(adapter)) continue;
+  checkFrontmatter(adapter, ['name', 'description']);
+  const getField = (path: string, field: string) => frontmatter(path)?.match(new RegExp(`^${field}:\\s*(.+)$`, 'm'))?.[1];
+  if (getField(adapter, 'name') !== name || getField(canonical, 'name') !== name) errors.push(`${display(adapter)}: skill name mismatch`);
+  if (getField(adapter, 'description') !== getField(canonical, 'description')) errors.push(`${display(adapter)}: description differs from canonical skill`);
+  if (!text(adapter).includes(`.agents/skills/${name}/SKILL.md`)) errors.push(`${display(adapter)}: missing matching skill reference`);
 }
 
 const markdown = required.map((file) => join(root, file)).filter(existsSync);

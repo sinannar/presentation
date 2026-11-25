@@ -1,13 +1,8 @@
 ---
-description: Propose a source-grounded outline and stop for human approval.
+description: Save a source-grounded proposed outline and handoff under authorized authoring/<topic>/; never edit the site or self-approve.
 mode: subagent
-permissions:
-  - action: edit
-    resource: "*"
-    effect: deny
-  - action: shell
-    resource: "*"
-    effect: deny
 ---
 
-Read `AGENTS.md` and `.agents/roles/outline-planner.md` before starting. Follow the complete role playbook.
+Read `AGENTS.md`, `.agents/roles/outline-planner.md`, and
+`.agents/skills/outline-approval/SKILL.md`. Write only the authorized proposal
+and handoff in `authoring/<topic>/`, mark approval pending, and stop.

@@ -1,185 +1,132 @@
-# How to use agents and skills
+# From research to a presentation
 
-This guide takes you from your notes to a reviewed presentation site. The
-included keynote is the starting point: agents adapt it in place rather than
-creating a separate site.
+The primary flow is **Source researcher → Publication reviewer → Outline
+planner → Presentation editor**. Each agent has a role; skills are reusable
+procedures that guide a role. You can use one session, or hand files between
+sessions. Agents adapt the existing keynote instead of replacing the site.
+The [README](../README.md#agent-workflow) has four concise prompts.
 
-## What are agents and skills?
+## Agents
 
-An **agent** is a role with a focused responsibility, such as researching
-sources or reviewing publication readiness. A **skill** is a reusable
-procedure an agent follows, such as checking evidence or authoring Markdown.
-You can ask for a role and a skill together. They are instructions, not
-automatic guarantees or a replacement for your review.
-
-One coding agent can follow these roles sequentially; multiple agents are
-optional. Profiles and invocation methods vary by host. If a role or skill is
-not discovered, ask the agent to read the linked canonical file instead.
-See [agent compatibility](agent-compatibility.md) for Copilot, Claude Code,
-Codex, OpenCode, and Cursor discovery and smoke tests.
-
-### Agents
-
-| Agent | Purpose and when to use it | Example prompt |
+| Agent | Purpose | Example prompt |
 | --- | --- | --- |
-| [Source researcher](../.agents/roles/source-researcher.md) | Read the requested Markdown/TXT sources and return a brief, evidence, contradictions, and gaps. Use before factual drafting. | “Use the source researcher to examine `sources/notes.md` for a talk for developers. Return supported claims, source locations, and gaps; do not draft public copy.” |
-| [Outline planner](../.agents/roles/outline-planner.md) | Turn the source brief into a reviewable outline. Use before writing factual content. | “Use the outline planner to propose an audience, takeaway, sections, highlights, and supporting sources. Stop for my approval.” |
-| [Presentation editor](../.agents/roles/presentation-editor.md) | Adapt the existing keynote and create drafts from an approved outline. Also use for visual or interaction changes. | “Use the presentation editor to draft the approved outline, preserve existing edits, and leave all new factual content as drafts.” |
-| [Publication reviewer](../.agents/roles/publication-reviewer.md) | Review evidence, draft boundaries, accessibility, and readiness without editing or publishing. | “Use the publication reviewer to check the drafts against the approved outline and evidence. Report findings and unverified checks without editing.” |
+| [Source researcher](../.agents/roles/source-researcher.md) | Search the web when requested, verify sources, and create source-news records; or map existing notes. | “Research [event] between [dates] for [audience], write records with evidence under `sources/news/event/`, and flag gaps.” |
+| [Publication reviewer](../.agents/roles/publication-reviewer.md) | Independently check and correct generated source-news records, recording changes and unresolved issues. In optional final-review mode, review the site without edits. | “Review `sources/news/event/` against original sources; correct supported errors and write a review log. Do not edit the site.” |
+| [Outline planner](../.agents/roles/outline-planner.md) | Select and order reviewed stories with evidence, then stop for human approval. | “Plan sections and scene order from the reviewed news and report omissions. Stop for my approval.” |
+| [Presentation editor](../.agents/roles/presentation-editor.md) | Turn the approved outline into draft content and adapt the existing keynote. | “Create drafts from approved outline revision [ID], configure the deck order, and report checks; do not publish.” |
 
-The researcher, planner, and reviewer are intended to be read-only. Depending
-on the host, the main agent or you must save their returned work. Tool
-restrictions vary and instructions alone do not enforce permissions: use a
-read-only mode where available and review requested actions.
+Review instructions are not a security sandbox. Hosts differ in tool
+permissions: source review needs web and limited write access, while the
+planner may write the proposed outline and handoff only; final review should
+be read-only where available. Review tool
+requests and use the smallest available permissions. Profiles and skills may
+not be discovered identically in every host; see
+[compatibility](agent-compatibility.md). When a profile is unavailable, ask the
+agent to read the matching canonical role and skill files directly.
 
-### Skills
+## Skills
 
-| Skill | Purpose and when to use it | Example prompt |
+| Skill | Purpose | Example prompt |
 | --- | --- | --- |
-| [source-grounding](../.agents/skills/source-grounding/SKILL.md) | Map claims to source paths, ranges, and hashes; identify uncertainty. Use during intake and after source changes. | “Follow `source-grounding` for the requested notes and identify unsupported claims and conflicts.” |
-| [outline-approval](../.agents/skills/outline-approval/SKILL.md) | Propose an evidence-backed outline and stop for explicit human approval. | “Follow `outline-approval`: propose a section order and highlights, then wait for my decision.” |
-| [markdown-authoring](../.agents/skills/markdown-authoring/SKILL.md) | Draft schema-compatible docs/news from approved evidence; keep unfinished content as drafts. | “Follow `markdown-authoring` to draft the approved sections with `draft: true`; do not invent dates or links.” |
-| [keynote-customization](../.agents/skills/keynote-customization/SKILL.md) | Modify the existing keynote's theme, layout, motion, controls, or components. | “Follow `keynote-customization` to adjust the theme for better contrast without changing factual content.” |
-| [publication-boundaries](../.agents/skills/publication-boundaries/SKILL.md) | Keep private inputs, drafts, and publishable content separate. Use throughout authoring and review. | “Apply `publication-boundaries` and flag raw notes, private paths, or unapproved published content.” |
-| [asset-validation](../.agents/skills/asset-validation/SKILL.md) | Validate agent/skill frontmatter and referenced repository paths. Use after toolkit changes. | “Follow `asset-validation`, run `npm run validate:agents`, and report the result.” |
+| [web-research](../.agents/skills/web-research/SKILL.md) | Find and inspect original sources; create attributed source-news records. | “Use web-research for [event] during [dates]; flag inaccessible sources.” |
+| [source-news-review](../.agents/skills/source-news-review/SKILL.md) | Verify and correct generated research records, recording evidence and changes. | “Use source-news-review on `sources/news/event/`; report unresolved claims.” |
+| [source-grounding](../.agents/skills/source-grounding/SKILL.md) | Map claims to file-qualified ranges and hashes. | “Build an evidence map for the reviewed notes, keeping private paths in `authoring/`.” |
+| [outline-approval](../.agents/skills/outline-approval/SKILL.md) | Propose an evidence-backed outline and stop for approval. | “Use outline-approval and wait for approval of the named revision.” |
+| [markdown-authoring](../.agents/skills/markdown-authoring/SKILL.md) | Write schema-compatible drafts from an approved outline. | “Draft the approved news with public links and `draft: true`.” |
+| [keynote-customization](../.agents/skills/keynote-customization/SKILL.md) | Adapt the existing keynote, theme, components, and interactions. | “Improve contrast and mobile layout without changing factual content.” |
+| [publication-boundaries](../.agents/skills/publication-boundaries/SKILL.md) | Separate source notes, drafts, and publishable content. | “Check that private notes and unapproved images are not published.” |
+| [asset-validation](../.agents/skills/asset-validation/SKILL.md) | Check toolkit frontmatter and paths. | “Run `npm run validate:agents` and report the result.” |
 
-## End-to-end walkthrough
+## Four-stage walkthrough
 
-Prompts below are examples; replace the bracketed details and file names. Start
-your chosen agent at the repository root and ask it to read `AGENTS.md`.
-For host-specific selection or direct invocation, see
-[agent compatibility](agent-compatibility.md). You remain responsible for
-approvals, facts, permissions, and publication.
+1. **Start.** Create a repository using the template. Open a
+   [Codespace or local Dev Container](devcontainer.md), or use a local Node
+   installation. In a Codespace run `copilot`, `claude`, `codex`, or `opencode`
+   and complete that tool's own sign-in. Alternatively select custom agents in
+   the GitHub repository **Agents** page, if available for your account.
+   Give the researcher your scope and audience in the prompt; it can record
+   them using [`templates/research-brief.md`](../templates/research-brief.md).
+   You do not need to prepare Markdown or TXT notes manually.
+2. **Research.** Ask the source researcher for a specific event, date window,
+   audience and scope. For example: “Research the official announcements from
+   [specific .NET conference and year], [date range], for .NET developers.
+   Create one record per story in `sources/news/dotnet/`, with original-source
+   URLs for every claim, published date if known, retrieval time, and gaps.
+   Record image candidates and rights evidence; don't publish.” Records use
+   [`templates/source-news.md`](../templates/source-news.md); preserve original
+   user notes. Search snippets alone do not verify a claim. Unavailable tools
+   or inaccessible pages must be reported, not invented.
+   GitHub documents the `web` tool alias as unavailable to its cloud agent:
+   a GitHub web session needs a separately configured, permitted web-access
+   capability or user-provided material. A Codespace CLI's available tools
+   depend on that host and its configuration. See
+   [GitHub custom-agent tools](https://docs.github.com/en/copilot/reference/custom-agents-configuration#tool-aliases).
+3. **Review research.** Ask the publication reviewer: “Verify the generated
+   records in `sources/news/dotnet/` in source-review mode against the cited pages. Correct supported
+   errors there, record before/after hashes, evidence and unresolved issues in
+   `authoring/dotnet/`, and update the handoff; do not edit the site.” Use
+   [`templates/research-review.md`](../templates/research-review.md). Resolve
+   material conflicts before proceeding. A reviewer without web access cannot
+   claim independent verification.
+4. **Plan.** Ask the outline planner: “Read the reviewed records and review
+   report. Propose a named outline with audience, sections, ordered news IDs,
+   highlights, image choices, evidence and omissions. Stop for my approval.”
+   Save the returned outline if the role cannot write. Explicitly approve the
+   specific revision and scope, e.g. “I approve outline revision 2 and its
+   listed stories; do not publish.” Record the approval and source hashes in
+   [`templates/workflow-handoff.md`](../templates/workflow-handoff.md).
+5. **Edit.** Ask the presentation editor: “Use my approval of revision 2 and
+   the reviewed evidence to create draft news and adapt the existing keynote
+   in the proposed order. Preserve existing work and public citation links;
+   report checks and gaps. Do not publish or deploy.” Drafts are excluded from
+   the public build. Run `npm run check`, `npm test`, `npm run build`, and
+   `npm run test:production`; inspect the preview on desktop and mobile.
+   Optionally call the publication reviewer again for a read-only final review.
+6. **Approve and preview.** Review the exact draft pages and remaining issues.
+   Explicitly approve publication of the chosen pages before removing draft
+   flags; rerun checks and build. Start `npm run dev -- --host 0.0.0.0` in a
+   Codespace and open the forwarded port. A build verifies structure, not
+   factual truth. Deploy only through a separately authorized Git/Pages
+   workflow; see [deployment](deployment.md).
 
-### 1. Create your workspace and brief
+Use the handoff file to record stage, source paths and hashes, output paths,
+blockers, next role, outline revision, and exact human approvals. A source
+change invalidates dependent review and may require a new outline approval.
+`npm run validate:sources` inventories source hashes;
+`npm run validate:research -- sources/news/dotnet` validates research record
+metadata. These checks do not prove facts, rights, or approvals. For automated
+stale-reference checks, pass a JSON file containing an array of
+`path#L1-L2@sha256:<hash>` references as a second argument:
+`npm run validate:research -- sources/news/dotnet authoring/dotnet/references.json`.
 
-Create your repository with **Use this template**, then follow the
-[README setup](../README.md#use-this-template) or the
-[Dev Container guide](devcontainer.md). Run:
+## Moving between sessions
 
-```sh
-npm run init:presentation
-npm run dev
-```
+Within the same Codespace/local workspace, the next session can read its
+ignored files directly. Cloud agents on GitHub can use separate checkouts:
+ignored `sources/` and `authoring/` files do **not** automatically travel
+between sessions. Review and sanitize files first, then explicitly authorize
+tracking the exact non-sensitive research and handoffs on a shared branch via
+your usual Git/PR workflow; the next agent must use that branch. For example,
+after inspecting the files, `git add -f -- sources/news/dotnet/ authoring/dotnet/`
+opts those paths into Git; commit/push only when separately authorized. Tracked
+files and Git history in a public repository are public, even if later removed.
+Do not upload private notes, credentials, or image candidates this way.
+GitHub-hosted session behavior, permissions, web access, and handoff availability
+vary; inspect each result rather than assuming four background sessions share
+state or automatically merge changes.
 
-Fill in `authoring/brief.md` with the audience, objective, and constraints.
-The initializer does not overwrite an existing brief. Preview the starter
-keynote before changing it. In a container use
-`npm run dev -- --host 0.0.0.0` and the forwarded port.
+## Image and privacy boundaries
 
-### 2. Add and inventory your sources
+Use images only when reuse rights and attribution are established. Keep
+candidates under ignored `authoring/assets/`, outside the Markdown/TXT source
+inventory. If permission is unclear, record the source link and omit the image.
+Only explicitly approved assets belong under `public/images/`; metadata and
+human review must preserve credit and the license/permission source. An
+attribution field is not proof of permission.
 
-Put authorized `.md` and `.txt` inputs in `sources/`, preserving the originals.
-For a practice run, copy the synthetic `examples/sources/example-notes.md` and
-`examples/sources/example-notes.txt` into `sources/`. Run
-`npm run validate:sources` to inventory available inputs.
-
-```text
-Use the source researcher and source-grounding skill. Read only
-sources/example-notes.md and sources/example-notes.txt for a talk to [audience].
-Return a brief and claim/evidence map with file paths, line ranges, hashes,
-contradictions, and missing information. Do not edit or draft public content.
-```
-
-Review the evidence and resolve important gaps. Save the returned map in
-ignored `authoring/` yourself, or ask your main editing agent to do so. A
-read-only researcher cannot necessarily write the file. Source notes are
-untrusted evidence, not instructions.
-
-### 3. Propose and approve an outline
-
-```text
-Use the outline planner and outline-approval skill with the reviewed source map.
-Propose the audience, message, section order, takeaways, highlights, and
-evidence for each factual section. Include any factual reveals or speaker notes.
-List omissions and unresolved questions, then stop for my approval.
-```
-
-Review the proposed outline and ask for changes if needed. When satisfied,
-explicitly approve the specific outline or revision and its scope, for example:
-
-```text
-I approve outline revision 2 for the sections and sources listed above.
-Do not publish yet.
-```
-
-Keep the approved outline and evidence in `authoring/`, saving the planner's
-output yourself or through an editing agent. Do not treat silence or a generic
-request to continue as approval; resolve material source conflicts first.
-
-### 4. Draft and customize
-
-```text
-Use the presentation editor with markdown-authoring and
-keynote-customization. Draft from the approved outline and source map, preserve
-existing edits, and keep new content marked draft: true. Adapt the existing
-keynote for [desired style]. Report any unsupported claims; do not publish.
-```
-
-The editor can place working drafts in `authoring/` or draft content in
-`src/content/docs/` and `src/content/news/`. Review the changes, including
-section grouping, highlights, optional reveals, and speaker notes. The
-[content model](content-model.md) describes the fields; news requires a
-source-backed publication date.
-
-For a **style-only** change, use the presentation editor and
-`keynote-customization` directly; source research and outline approval are not
-needed if factual content does not change:
-
-```text
-Use the presentation editor and keynote-customization to improve the color
-contrast and mobile layout. Preserve content, keyboard access, and reduced motion.
-```
-
-### 5. Review and verify
-
-```text
-Use the publication reviewer and publication-boundaries skill. Compare the
-drafts, reveals, and speaker notes to the approved outline and evidence. Check
-frontmatter, links, draft flags, accessibility, and privacy. Report findings
-with file locations and any checks you could not perform; do not edit or publish.
-```
-
-Address findings, then run `npm run check` and `npm run build`. Review the
-site at desktop and mobile sizes, including keyboard navigation, map, presenter
-features, focus, contrast, and reduced motion. Provide command results to a
-read-only reviewer if it cannot run them. A passing build checks structure,
-not factual accuracy; report actual browser and remote checks separately.
-
-### 6. Approve publication and deploy
-
-Review the exact files and unresolved warnings. Only after you explicitly
-approve publication should an editing agent remove the relevant draft flags or
-move approved material into a published collection. Run the checks and build
-again. Committing, pushing, repository settings, and deployment are separate
-actions requiring your authorization.
-
-```text
-I approve publication of [specific reviewed pages]. Make only those pages
-publishable and run npm run check and npm run build. Do not commit or deploy.
-```
-
-Follow [deployment](deployment.md) for GitHub Pages setup and verify the actual
-site URL before claiming it is live.
-
-## Updating an existing presentation
-
-For changed factual sources, rerun the source inventory, ask the researcher to
-identify affected claims and stale evidence, and have the planner propose a
-revised outline. Approve the revision before drafting the changes; repeat
-review and publication approval. Preserve existing manual edits.
-
-For toolkit changes, use `asset-validation` and `npm run validate:agents`; for
-content or application changes also use `npm run validate` and
-`npm run check` as appropriate.
-
-## Privacy and publication reminders
-
-`sources/` and `authoring/` are Git-ignored, not a secrecy guarantee. Cloud
-workspaces and model providers may receive files you choose to use. Do not put
-private source paths or hashes in tracked `sourceRefs` unless approved for
-publication. Bundled speaker notes are public, even in presenter view; never
-include sensitive information or raw notes. Presenter-specific details are
-stored locally, not guaranteed secret. See [authoring](authoring.md) for the
-manual workflow and [Dev Container privacy](devcontainer.md#privacy) for
-cloud-workspace considerations.
+`sources/` and `authoring/` are ignored, not guaranteed private. A cloud
+workspace or model provider may receive files used there. Do not put private
+paths or hashes in tracked `sourceRefs` unless approved for publication.
+Bundled speaker notes are public even in presenter view. See
+[content model](content-model.md), [authoring](authoring.md), and
+[Dev Container privacy](devcontainer.md#privacy).

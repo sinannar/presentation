@@ -1,4 +1,16 @@
-export const siteConfig = {
+import type { PresentationConfig } from './src/lib/deck';
+
+interface SiteConfig {
+  title: string;
+  description: string;
+  author: string;
+  tagline: string;
+  primaryLink: { label: string; href: string };
+  sections: readonly { id: string; label: string; href: string }[];
+  presentation?: PresentationConfig;
+}
+
+export const siteConfig: SiteConfig = {
   title: 'From notes to keynote',
   description: 'A presentation template that explains how to make it your own.',
   author: 'The presentation template',

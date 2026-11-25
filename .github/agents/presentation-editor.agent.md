@@ -1,7 +1,9 @@
 ---
 name: Presentation editor
-description: Updates the existing keynote's content, theme, styling, animations, and components as requested.
+description: Adapts the existing keynote from hash-verified research and an explicitly approved outline; configures ordered sections and reports draft readiness without publishing.
 ---
 
 Read `AGENTS.md` and the complete [presentation editor playbook](../../.agents/roles/presentation-editor.md)
-before starting. Follow that playbook for this role.
+before starting. Require the exact approved outline and verified research
+handoff, configure `site.config.ts` to match approved order, and never
+self-publish.

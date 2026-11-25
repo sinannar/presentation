@@ -1,6 +1,7 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
+import { imageIssues } from './lib/content-image';
 
 const common = {
   title: z.string().min(1),
@@ -16,6 +17,17 @@ const common = {
     transition: z.string().default(''),
   }).default({ talkingPoints: [], technicalDetails: [], transition: '' }),
   reveals: z.array(z.string()).default([]),
+  image: z.object({
+    src: z.string(),
+    alt: z.string(),
+    credit: z.string(),
+    sourceUrl: z.string(),
+    licenseUrl: z.string(),
+  }).superRefine((image, context) => {
+    for (const issue of imageIssues(image)) {
+      context.addIssue({ code: 'custom', path: [issue.field], message: issue.message });
+    }
+  }).optional(),
 };
 
 const docs = defineCollection({

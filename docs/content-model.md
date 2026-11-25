@@ -29,6 +29,49 @@ links:
 
 `draft: true` entries are excluded from routes and builds. Source references are for authoring/provenance; public links must be intentionally selected.
 
+## Presentation selection and order
+
+Without a `presentation` setting, all published docs followed by all published
+news appear in the keynote as before. To use an approved outline, add an
+ordered `presentation` property to `site.config.ts`:
+
+```ts
+presentation: {
+  sections: [
+    { name: 'Opening', items: ['news/template-workflow', 'docs/getting-started'] },
+    { name: 'Next steps', items: ['docs/make-it-yours'] },
+  ],
+},
+```
+
+Use collection-qualified content IDs (the Markdown path without `.md`).
+Sections and items appear in that order. Duplicate names or references and
+unknown IDs fail the build; existing drafts are omitted until approved for
+publication. `sections: []` deliberately shows no content scenes. The news
+and docs archives remain independent of this presentation selection.
+
+## Optional attributed images
+
+After confirming reuse permission and authorizing publication, place a raster
+asset in `public/images/` and add this optional field to a doc or news entry:
+
+```yaml
+image:
+  src: /images/example.png
+  alt: Description of the image
+  credit: Creator name
+  sourceUrl: https://example.com/image
+  licenseUrl: https://example.com/license
+```
+
+The image and visible credit appear on the corresponding keynote scene; news
+articles also display it. Only existing local PNG, JPEG, GIF, WebP or AVIF
+files are accepted; external image URLs, SVG, traversal and missing files are
+rejected. Source and permission links must be HTTP(S). URLs are base-aware.
+Metadata validation cannot establish ownership, license scope or consent;
+verify those independently. If rights are unclear, keep a source link in
+research and do not publish the image.
+
 Run `npm run validate:sources` to obtain file-qualified references in the format `sources/notes.md#L1-L8@sha256:<full-file-hash>`. Keep private references in ignored `authoring/` records; tracked frontmatter is public even if not rendered. Only use `sourceRefs` for paths and hashes approved for publication, and only for lines supporting the entry. Use `npm run validate:sources -- --check-refs` when the inputs are available. Hash checks detect changes; they do not prove a claim is true. Do not treat source references as public links.
 
 ## Keynote scene fields

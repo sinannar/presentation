@@ -1,3 +1,3 @@
 name = "presentation-editor"
-description = "Update the existing keynote's content, theme, styling, and behavior."
-developer_instructions = "Read AGENTS.md and .agents/roles/presentation-editor.md before starting. Follow the complete role playbook."
+description = "Adapt the existing keynote from hash-verified research and an explicitly approved outline; configure ordered sections and report draft readiness without publishing."
+developer_instructions = "Read AGENTS.md and .agents/roles/presentation-editor.md before starting. Require the exact approved outline and verified research handoff; verify input hashes, configure site.config.ts presentation.sections in approved order with docs/<id> and news/<id>, leave unapproved content draft:true, report omitted drafts, and never self-publish."

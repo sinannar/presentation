@@ -6,10 +6,10 @@ import { spawnSync } from 'node:child_process';
 import { test } from 'node:test';
 
 test('agent asset validation handles spaces and detects broken adapters', () => {
-  const root = mkdtempSync(join(tmpdir(), 'presentation agent adapters '));
   const project = resolve('.');
+  const root = mkdtempSync(join(tmpdir(), 'presentation agent adapters '));
   try {
-    for (const path of ['AGENTS.md', 'CLAUDE.md', 'docs', 'scripts', '.agents', '.github', '.claude', '.cursor', '.opencode', '.codex']) {
+    for (const path of ['AGENTS.md', 'CLAUDE.md', 'README.md', 'CONTRIBUTING.md', 'package.json', 'templates', 'docs', 'scripts', '.agents', '.github', '.claude', '.cursor', '.opencode', '.codex']) {
       cpSync(join(project, path), join(root, path), { recursive: true });
     }
     const validate = () => spawnSync(process.execPath, ['--import', 'tsx', join(root, 'scripts/validate-agent-assets.ts')], {
@@ -31,10 +31,34 @@ test('agent asset validation handles spaces and detects broken adapters', () => 
     assert.notEqual(missing.status, 0);
     assert.match(missing.stderr, /publication-reviewer\.toml: required file is missing/);
 
+    unlinkSync(join(root, '.claude/skills/source-news-review/SKILL.md'));
+    const skillAdapter = validate();
+    assert.notEqual(skillAdapter.status, 0);
+    assert.match(skillAdapter.stderr, /source-news-review\/SKILL\.md: required file is missing/);
+
     writeFileSync(join(root, 'CLAUDE.md'), 'No import\n');
     const instructions = validate();
     assert.notEqual(instructions.status, 0);
     assert.match(instructions.stderr, /CLAUDE\.md: missing AGENTS\.md import/);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('all four-role workflow agent and skill adapters are required', () => {
+  const project = resolve('.');
+  const root = mkdtempSync(join(tmpdir(), 'presentation agent coverage '));
+  try {
+    for (const path of ['AGENTS.md', 'CLAUDE.md', 'README.md', 'CONTRIBUTING.md', 'package.json', 'templates', 'docs', 'scripts', '.agents', '.github', '.claude', '.cursor', '.opencode', '.codex']) {
+      cpSync(join(project, path), join(root, path), { recursive: true });
+    }
+    const reviewer = join(root, '.cursor/agents/publication-reviewer.md');
+    unlinkSync(reviewer);
+    const broken = spawnSync(process.execPath, ['--import', 'tsx', join(root, 'scripts/validate-agent-assets.ts')], {
+      cwd: project, encoding: 'utf8',
+    });
+    assert.notEqual(broken.status, 0);
+    assert.match(broken.stderr, /publication-reviewer\.md: required file is missing/);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

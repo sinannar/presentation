@@ -1,16 +1,16 @@
 ---
 title: Build your story with agents
-summary: Give an agent your Markdown or text notes and ask it to adapt this existing keynote.
+summary: Ask agents to research your topic, review the evidence, and adapt this existing keynote.
 category: Step 2
 order: 2
 takeaway: Review the outline, then shape the content, theme, styling, and animations together.
 featured: true
 reveals:
-  - Put Markdown and text notes in sources/.
+  - Research and review the news using linked sources.
   - Approve the outline before drafting and review before publishing.
 speakerNotes:
   talkingPoints:
-    - Give the agent the audience and the intended outcome along with the source notes.
+    - Give the researcher the topic, date window, audience, and intended outcome.
     - Ask the agent to adapt the existing keynote instead of starting a separate deck.
   technicalDetails:
     - AGENTS.md, agent profiles, and skills guide outlining, authoring, and review.
@@ -18,6 +18,6 @@ speakerNotes:
   transition: Once the story is reviewed, publish the approved presentation with GitHub Pages.
 ---
 
-Place your Markdown and text notes in `sources/`, then describe your audience and what you want the presentation to achieve. The repository's `AGENTS.md`, agent profiles, and skills guide an agent through outlining, authoring, and review.
+Describe your topic, date window, audience, and desired outcome. Ask the source researcher to gather news with original source links, then ask the publication reviewer to verify it. Local Markdown and text notes in `sources/` are optional.
 
-Approve an outline before drafting. Ask the agent to adapt the existing presentation's content, theme, styles, animations, or components. Review the result and its source references before publishing.
+Ask the outline planner to propose a story and approve the outline before the presentation editor drafts. The repository's `AGENTS.md`, agent profiles, and skills guide each step. Review the result and its sources before approving publication. Web access depends on the selected agent host.

@@ -1,0 +1,16 @@
+---
+import type { ContentImage } from '../lib/content-image';
+import { withBase } from '../lib/urls';
+
+interface Props {
+  image: ContentImage;
+}
+
+const { image } = Astro.props;
+---
+<figure class="attributed-image">
+  <img src={withBase(image.src)} alt={image.alt} loading="lazy" decoding="async" />
+  <figcaption>
+    Image: {image.credit} · <a href={image.sourceUrl}>Source</a> · <a href={image.licenseUrl}>License / permission</a>
+  </figcaption>
+</figure>

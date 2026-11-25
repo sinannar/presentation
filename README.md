@@ -1,14 +1,17 @@
 # Presentation template
 
-An Astro keynote template for turning Markdown and plain-text notes into a source-grounded presentation website. It starts with a built-in example; agents adapt the existing presentation rather than creating a separate site.
+An Astro keynote template for turning agent-researched news into a
+source-grounded presentation website. Bring your own Markdown or plain-text
+notes if you prefer; they are optional. Agents adapt the built-in presentation
+rather than creating a separate site.
 
 ## Use this template
 
 1. On [sinannar/presentation](https://github.com/sinannar/presentation), select **Use this template** and create a repository.
 2. Clone it and install Node.js 22.23.4 or newer, then run `npm ci`; or use the [Dev Container or Codespaces](docs/devcontainer.md).
 3. Edit `site.config.ts` for the title, author, tagline, and supporting-site navigation.
-4. Run `npm run init:presentation` to create a local brief without overwriting an existing one. Put private or local `.md`/`.txt` inputs in `sources/`. Both locations are ignored by Git.
-5. Follow the guided workflow in `docs/authoring.md`, using the included agents and skills when available.
+4. Choose a topic or event and follow the four-prompt [agent workflow](#agent-workflow); the researcher gathers sources for you. Optionally run `npm run init:presentation` for a local brief or place your own `.md`/`.txt` inputs in `sources/`. Both locations are ignored by Git.
+5. Review the research, approve the outline, and let the editor prepare the draft.
 6. Review curated pages in `src/content/`, then run `npm run check` and `npm run build`.
 
 The starter opens as a windowed keynote. Use the arrow keys or Space to navigate, `?` for help, and `F` to opt into fullscreen. Supporting content lives under `/docs/` and `/news/`. Raw notes and local authoring records are never copied into the built site.
@@ -53,6 +56,7 @@ npm run dev              # local site
 npm run init:presentation # create a local brief, without overwriting
 npm run validate         # public content checks
 npm run validate:sources # inventory available local inputs
+npm run validate:research # validate source-news metadata (local inputs required)
 npm run validate:agents  # check shipped agent and skill assets
 npm run check            # validation + Astro type checks
 npm run build            # static production build
@@ -71,7 +75,52 @@ prerequisites, preview, authentication, updates, and privacy.
 
 ## Agent workflow
 
-The intended flow is **prepare → approve outline → author → review → approve publication → publish**. `AGENTS.md` is the canonical repository contract. Follow the [agents and skills how-to](docs/agents-and-skills.md) for the complete workflow, role and skill tables, and example prompts; see `docs/authoring.md` for the manual fallback.
+Use **Source researcher → Publication reviewer → Outline planner →
+Presentation editor**. Start in your Codespace terminal with `copilot` or
+another supported CLI, or select each custom agent in the repository's
+GitHub **Agents** page if your account has access. Give the same topic and
+working paths to each role; wait for its results before starting the next.
+For example, replace the event and dates below:
+
+1. **Source researcher:** “Research [specific .NET conference] announcements
+   from [start date] to [end date] for [audience]. Verify primary sources,
+   write original source-news records in `sources/news/dotnet/`, retain claim
+   URLs and image rights evidence, and save a handoff in `authoring/dotnet/`.
+   Do not publish.”
+2. **Publication reviewer:** “In source-review mode, independently verify and correct the generated
+   records in `sources/news/dotnet/`, record changes and unresolved claims in
+   `authoring/dotnet/`, and update the handoff. Do not edit the site.”
+3. **Outline planner:** “Use the reviewed records and handoff for
+   `dotnet` to propose the presentation sections, ordered stories, highlights,
+   images and evidence. Save the proposed outline and handoff in
+   `authoring/dotnet/` and stop for my approval.”
+4. **Presentation editor:** “Using my approval of [outline revision], the
+   reviewed sources and handoff, adapt the existing presentation, create
+   evidence-backed drafts and configure scene order. Report checks and
+   remaining issues; do not publish or deploy.”
+
+**Between steps:** review unresolved findings and explicitly approve the
+specific outline before step 4; record that approval in the handoff so another
+session can see it. Review the finished drafts and separately
+approve which pages may be made publishable; build and preview them before
+any separately authorized deployment. Four prompts are a starting point, not
+an automatic guarantee: inaccessible sources, missing image rights, approvals,
+or verification may require your input. GitHub documents its `web` tool alias
+as unavailable to Copilot cloud agents; GitHub web sessions need another
+supported, permitted web-access tool configured for live research, or
+user-supplied source material. Do not assume selecting an agent provides web access.
+
+In a single Codespace, ignored `sources/` and `authoring/` files remain in that
+workspace. Separate GitHub web-agent sessions may use separate checkouts and
+cannot see untracked/ignored files from another session. To hand off between
+them, deliberately share only reviewed non-sensitive research and handoffs on
+a branch accessible to the next session, using your normal authorized Git/PR
+workflow; explicitly opt in to tracking the chosen ignored files. Never expose
+private notes or credentials to achieve this. See the [complete guide](docs/agents-and-skills.md)
+for exact handoffs, agent and skill tables, and image/privacy rules.
+
+`AGENTS.md` is the canonical repository contract; `docs/authoring.md` describes
+the manual fallback.
 
 See [agent compatibility](docs/agent-compatibility.md) for Copilot, Claude Code,
 Codex, OpenCode and Cursor discovery and smoke tests.

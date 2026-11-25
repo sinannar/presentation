@@ -1,15 +1,22 @@
 ---
 import { siteConfig } from '../../site.config';
-import { publishedDocs, publishedNews, displayDate } from '../lib/content';
+import { getCollection } from 'astro:content';
+import { displayDate } from '../lib/content';
+import { selectDeck, type DeckReference } from '../lib/deck';
+import AttributedImage from '../components/AttributedImage.astro';
 import { withBase } from '../lib/urls';
 import '../styles/global.css';
 import '../styles/keynote.css';
 
-const docs = await publishedDocs();
-const news = await publishedNews();
-const contentScenes = [
+const docs = (await getCollection('docs'))
+  .sort((a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+const news = (await getCollection('news'))
+  .sort((a, b) => b.data.published.valueOf() - a.data.published.valueOf());
+const contentScenes = selectDeck([
   ...docs.map((doc) => ({
     id: `docs-${doc.id}`,
+    reference: `docs/${doc.id}` as DeckReference,
+    draft: doc.data.draft,
     kind: 'content',
     section: doc.data.category,
     type: 'Guide',
@@ -23,10 +30,13 @@ const contentScenes = [
     featured: doc.data.featured,
     notes: doc.data.speakerNotes,
     reveals: doc.data.reveals,
+    image: doc.data.image,
     source: 'Docs',
   })),
   ...news.map((item) => ({
     id: `news-${item.id}`,
+    reference: `news/${item.id}` as DeckReference,
+    draft: item.data.draft,
     kind: 'content',
     section: item.data.category,
     type: 'News',
@@ -40,9 +50,10 @@ const contentScenes = [
     featured: item.data.featured,
     notes: item.data.speakerNotes,
     reveals: item.data.reveals,
+    image: item.data.image,
     source: 'News',
   })),
-];
+], siteConfig.presentation);
 const sections = [...new Set(contentScenes.map((scene) => scene.section))]
   .map((name) => ({
     name,
@@ -220,12 +231,14 @@ const notesFor = (notes?: { talkingPoints?: string[]; technicalDetails?: string[
                 {scene.detail && <div class="scene-detail"><span>{scene.source === 'Docs' ? 'Keep in mind' : 'Status'}</span><p>{scene.detail}</p></div>}
                 <a class="text-link" href={scene.href}>{scene.link} <span aria-hidden="true">↗</span></a>
               </div>
-              <div class:list={['content-visual', scene.source === 'Docs' ? 'content-visual-doc' : 'content-visual-news']} aria-hidden="true">
-                <span class="visual-orbit orbit-one"></span>
-                <span class="visual-orbit orbit-two"></span>
-                <span class="visual-glyph">{scene.source === 'Docs' ? '↗' : '✳'}</span>
-                <span class="visual-label">{scene.category}</span>
-              </div>
+              {scene.image ? <AttributedImage image={scene.image} /> : (
+                <div class:list={['content-visual', scene.source === 'Docs' ? 'content-visual-doc' : 'content-visual-news']} aria-hidden="true">
+                  <span class="visual-orbit orbit-one"></span>
+                  <span class="visual-orbit orbit-two"></span>
+                  <span class="visual-glyph">{scene.source === 'Docs' ? '↗' : '✳'}</span>
+                  <span class="visual-label">{scene.category}</span>
+                </div>
+              )}
             </div>
           </section>
         ))}

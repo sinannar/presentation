@@ -1,5 +1,12 @@
 # Authoring workflow
 
+For web research and the four-agent sequence, see the
+[end-to-end guide](agents-and-skills.md). Researcher-generated news in
+`sources/news/` is working evidence, not a published news page. A reviewer
+may correct those generated records and record changes; original user notes
+remain unchanged. Separate sessions require accessible handoff files and
+explicit permission before sharing ignored material.
+
 ## 1. Intake
 
 Place Markdown or plain-text notes under `sources/`. Keep the original files unchanged. Run `npm run validate:sources` to confirm which files are available.

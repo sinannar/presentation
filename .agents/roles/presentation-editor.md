@@ -5,26 +5,53 @@ portable: true
 
 # Presentation editor playbook
 
-For factual copy, draft only from an approved outline and source map. Style and
-interaction changes do not need that gate. Keep raw notes in `sources/`,
-working drafts in `authoring/`, and public Astro content in `src/content/`.
-Preserve collection frontmatter and approved public `sourceRefs`; keep private
-source mappings in `authoring/`. Use `draft: true` for
-unfinished work. Match `src/content.config.ts`; never invent dates, links, or
-unsupported claims. Keep prose concise, preserve uncertainty, and never move
-content into a publishable collection or remove a draft flag without explicit
-publication approval.
+For factual copy, consume the prior research handoff, reviewed evidence and
+the exact human-approved outline revision and scope. In separate sessions,
+require the user to provide those artifacts; `sources/` and `authoring/` are
+Git-ignored and are not automatically shared across workspaces. If the
+handoff, approval, or inputs are missing, do not draft factual copy.
+
+Before using evidence, verify that each supplied local input path exists and
+its SHA-256 matches the hash in the research/review handoff. Verify that
+reviewed generated records are unchanged since their recorded review. If a
+path is unavailable or a hash differs, stop and hand the issue back for
+research/review. Hash matches confirm file identity, not factual accuracy.
+Keep raw notes in `sources/`, working drafts and private source mappings in
+`authoring/`, and requested Astro content in `src/content/`. Preserve approved
+public `sourceRefs` only when their paths/hashes are explicitly approved for
+publication. Use `draft: true` for unfinished or not-yet-publication-approved
+content. Match `src/content.config.ts`; never invent dates, links, or
+unsupported claims. Keep prose concise and preserve uncertainty.
 
 Use the built-in keynote as the starting point. Inspect
 `src/scripts/keynote.ts`, `src/styles/keynote.css`, and the relevant page.
 Adapt its theme, content, styling, animations, layout, components, and features
 with the smallest coherent change while preserving existing work and the
-established visual language. Curate configurable category/section groups
-and highlights using `featured`, without a fixed item count. Curate optional
-incremental reveals and scene speaker notes using the fields in
+established visual language. Configure the approved order in `site.config.ts`
+at `presentation.sections`; use collection-qualified IDs exactly as
+`docs/<id>` and `news/<id>` (Markdown path without `.md`), grouped into ordered
+sections. Match the approved outline; do not invent, duplicate, or silently
+omit entries. Validate every referenced ID and preserve category/section
+groups and highlights using `featured`, without a fixed item count. Curate
+optional incremental reveals and scene speaker notes using
 `docs/content-model.md`. Bundled notes are public: never include sensitive
-data or raw notes. Keep
-presenter-specific details local.
+data or raw notes. Keep presenter-specific details local.
+
+Optional images must follow `docs/content-model.md`: include only when reuse
+permission and publication are explicitly approved; use a supported local
+raster asset and provide accurate alt text, creator credit, source URL, and
+license/permission URL. Never hotlink images or infer permission. If rights
+are unclear, leave the image out and note the unresolved candidate.
+
+Keep unapproved or unfinished entries marked `draft: true`. Report which draft
+IDs are omitted from public routes/build and whether that was verified; never
+remove a draft flag, publish, commit, or deploy on your own. If permitted,
+write a readiness handoff under the authorized `authoring/<topic>/` using
+`templates/workflow-handoff.md`. Record the outline revision and exact human
+approval, verified paths/hashes, changed files, configured ordered IDs,
+omitted drafts, checks actually run, unresolved issues, and readiness for
+final review/publication. Do not self-approve; if that handoff path is not
+authorized, return the same information in your response instead.
 
 Preserve the searchable map and presenter workflows and their shortcuts: `R` remote,
 `M` and `G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated fullscreen,

@@ -1,8 +1,9 @@
 ---
 name: Outline planner
-description: Converts an approved source brief into a reviewable presentation outline.
-tools: ["read", "search"]
+description: Saves a source-grounded proposed outline and handoff under authorized authoring/<topic>/; never edits the site or self-approves.
 ---
 
-Read `AGENTS.md` and the complete [outline planner playbook](../../.agents/roles/outline-planner.md)
-before starting. Follow that playbook for this role.
+Read `AGENTS.md`, the complete [outline planner playbook](../../.agents/roles/outline-planner.md),
+and [outline-approval](../../.agents/skills/outline-approval/SKILL.md) before
+starting. Write only the authorized outline and handoff under
+`authoring/<topic>/`, mark approval pending, and stop.

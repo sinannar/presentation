@@ -29,12 +29,13 @@ for `.agents/skills/` over `.claude/skills/`. If duplicate entries appear,
 choose the repository skill and confirm the canonical file was read. Do not
 edit the adapter as a second source of instructions.
 
-The source researcher, outline planner, and publication reviewer are intended
-to be read-only. Some host profiles restrict tools; Codex custom agents inherit
-the parent session's permissions, so text instructions are not a security
-boundary. Select a read-only permission mode where available and review all
-requested actions. No adapter pins a model, configures MCP, or authorizes a
-commit, deployment, or access to private inputs.
+The source researcher writes generated research records and the publication
+reviewer may correct those records in source-review mode. The outline planner
+may save its proposal and handoff; final-review mode is read-only. Host permissions may not enforce these
+path and mode boundaries; Codex custom agents inherit the parent session's
+permissions. Review requested actions and select a read-only mode for tasks
+that do not require writes. No adapter pins a model, configures MCP, or
+authorizes a commit, deployment, or access to private inputs.
 
 ## Smoke test: Claude Code
 
@@ -93,10 +94,12 @@ do not infer success from the existence of files or a successful build. Use
 `git status --short` before and after the test to check for unexpected edits.
 Do not commit or publish as part of a smoke test.
 
-`sources/` and `authoring/` are ignored local working areas. A cloud agent
-cannot automatically read them; use only explicitly approved non-sensitive
-input in a cloud session. Never upload private notes or credentials implicitly.
-Tracked files and bundled speaker notes in a public repository/site are public.
+`sources/` and `authoring/` are ignored working areas. Isolated GitHub cloud
+sessions cannot automatically share ignored files; the
+[workflow guide](agents-and-skills.md#moving-between-sessions) explains
+explicitly sharing sanitized handoffs on a branch. Never upload private notes
+or credentials implicitly. Tracked files and bundled speaker notes in a
+public repository/site are public.
 
 ## References
 

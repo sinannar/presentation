@@ -1,7 +1,8 @@
 ---
 name: publication-reviewer
-description: Review evidence and publication boundaries without editing or publishing.
-readonly: true
+description: In source-review mode correct only authorized generated news records and review handoffs; in final-review mode reads and reports without editing.
 ---
 
-Read `AGENTS.md` and `.agents/roles/publication-reviewer.md` before starting. Follow the complete role playbook.
+Read `AGENTS.md`, `.agents/roles/publication-reviewer.md`, and
+`.agents/skills/source-news-review/SKILL.md`. Require explicit mode. In
+`final-review`, do not write files even if the host grants write tools.

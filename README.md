@@ -71,7 +71,7 @@ prerequisites, preview, authentication, updates, and privacy.
 
 ## Agent workflow
 
-The intended flow is **prepare → approve outline → author → review → approve publication → publish**. `AGENTS.md` is the canonical repository contract. Read `docs/agents-and-skills.md` for the shipped roles and reusable skills, and `docs/authoring.md` for the complete manual fallback.
+The intended flow is **prepare → approve outline → author → review → approve publication → publish**. `AGENTS.md` is the canonical repository contract. Follow the [agents and skills how-to](docs/agents-and-skills.md) for the complete workflow, role and skill tables, and example prompts; see `docs/authoring.md` for the manual fallback.
 
 See [agent compatibility](docs/agent-compatibility.md) for Copilot, Claude Code,
 Codex, OpenCode and Cursor discovery and smoke tests.

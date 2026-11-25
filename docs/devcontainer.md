@@ -37,14 +37,13 @@ guarantee that its agents or skills are discovered.
 
 ## Versions and updates
 
-The Dockerfile pins the npm-installed Copilot, Codex, and OpenCode CLIs to
-recent releases. OpenCode v2 intends to support existing v1 agent definitions,
-but discovery and permissions should be verified with the smoke tests. Claude
-Code is installed from Anthropic's signed latest apt channel and may change on
-a fresh build. The base image tag can also change. To update the pinned CLIs, change their
-Dockerfile version arguments, rebuild the container, and repeat the smoke tests.
-Rebuild without cache to refresh the base image and Claude latest package.
-Changes made inside a container outside the workspace may be lost on rebuild.
+The Dockerfile installs the latest npm releases of Copilot, Codex, and OpenCode
+and uses Anthropic's signed latest apt channel for Claude Code. Rebuild the
+container without cache to fetch current CLI releases, then repeat the smoke
+tests. Versions and behavior can change between builds; OpenCode discovery and
+permissions should be verified in particular. The Node 24 base image tag can
+also change: pull the base image to refresh it. Changes made inside a container
+outside the workspace may be lost on rebuild.
 
 ## Privacy
 

@@ -1,10 +1,5 @@
 FROM mcr.microsoft.com/devcontainers/javascript-node:24-bookworm
 
-# The npm-installed CLIs are pinned; Claude Code follows Anthropic's latest apt channel.
-ARG COPILOT_VERSION=1.0.115
-ARG CODEX_VERSION=0.172.0
-ARG OPENCODE_VERSION=2.4.1
-
 USER root
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates curl gnupg \
@@ -14,7 +9,7 @@ RUN apt-get update \
     && echo "deb [signed-by=/etc/apt/keyrings/claude-code.asc] https://downloads.claude.ai/claude-code/apt/latest latest main" > /etc/apt/sources.list.d/claude-code.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends claude-code \
-    && npm install -g "@github/copilot@${COPILOT_VERSION}" "@openai/codex@${CODEX_VERSION}" "@opencode/cli@${OPENCODE_VERSION}" \
+    && npm install -g @github/copilot@latest @openai/codex@latest @opencode/cli@latest \
     && rm -rf /var/lib/apt/lists/*
 
 USER node

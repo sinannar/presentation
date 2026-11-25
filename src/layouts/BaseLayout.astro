@@ -1,0 +1,25 @@
+---
+import { siteConfig } from '../../site.config';
+import { withBase } from '../lib/urls';
+import '../styles/global.css';
+const { title = siteConfig.title, description = siteConfig.description } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title} · {siteConfig.title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={withBase('/')}>{siteConfig.title}</a>
+      <nav aria-label="Primary navigation">
+        {siteConfig.sections.map((section) => <a href={withBase(section.href)}>{section.label}</a>)}
+      </nav>
+    </header>
+    <main><slot /></main>
+    <footer><span>{siteConfig.author}</span><span>{siteConfig.description}</span></footer>
+  </body>
+</html>

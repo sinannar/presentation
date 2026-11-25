@@ -1,0 +1,12 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/urls';
+export async function getStaticPaths() {
+  const docs = await getCollection('docs', ({ data }) => !data.draft);
+  return docs.map((doc) => ({ params: { slug: doc.slug }, props: { doc } }));
+}
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+---
+<BaseLayout title={doc.data.title} description={doc.data.summary}><article class="article"><p class="eyebrow">Docs · {doc.data.category}</p><h1>{doc.data.title}</h1><p class="lede">{doc.data.summary}</p>{doc.data.takeaway && <p class="card"><strong>Takeaway:</strong> {doc.data.takeaway}</p>}<Content /><p><a href={withBase('/docs/')}>← All docs</a></p></article></BaseLayout>

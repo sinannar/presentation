@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { publishedDocs } from '../../lib/content';
+import { withBase } from '../../lib/urls';
+const docs = await publishedDocs();
+---
+<BaseLayout title="Docs"><p class="eyebrow">Docs</p><h1>Follow the story.</h1><div class="grid">{docs.map((doc) => <a class="card" href={withBase(`/docs/${doc.slug}/`)}><h2>{doc.data.title}</h2><p>{doc.data.summary}</p></a>)}</div></BaseLayout>

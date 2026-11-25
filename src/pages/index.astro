@@ -1,0 +1,89 @@
+---
+import { siteConfig } from '../../site.config';
+import { publishedDocs, publishedNews, displayDate } from '../lib/content';
+import { withBase } from '../lib/urls';
+import '../styles/global.css';
+import '../styles/keynote.css';
+
+const docs = await publishedDocs();
+const news = await publishedNews();
+const scenes = [
+  ...docs.map((doc, index) => ({
+    id: `docs-${doc.slug}`, type: 'Step', step: index + 1, title: doc.data.title,
+    category: doc.data.category, summary: doc.data.summary, detail: doc.data.takeaway,
+    href: withBase(`/docs/${doc.slug}/`), link: 'Read the guide', meta: '',
+  })),
+  ...news.map((item) => ({
+    id: `news-${item.slug}`, type: 'News', step: undefined, title: item.data.title,
+    category: item.data.category, summary: item.data.summary, detail: item.data.status,
+    href: withBase(`/news/${item.slug}/`), link: 'Read the update', meta: displayDate(item.data.published),
+  })),
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={siteConfig.description} />
+    <title>{siteConfig.title}</title>
+  </head>
+  <body class="keynote">
+    <a class="skip-link" href="#keynote-stage">Skip to presentation</a>
+    <div class="keynote-shell">
+      <main id="keynote-stage" class="keynote-stage" aria-label="Presentation" tabindex="-1">
+        <section class="scene scene-opening" data-scene="home" aria-label="Opening">
+          <div class="scene-inner">
+            <p class="scene-kicker">A presentation by {siteConfig.author}</p>
+            <h1 class="opening-title">{siteConfig.title}</h1>
+            <p class="opening-subtitle">{siteConfig.tagline}</p>
+            <div class="opening-actions">
+              {scenes.length > 0 && <button class="action action-primary" type="button" data-start>Start presentation <span aria-hidden="true">→</span></button>}
+              <a class="action action-secondary" href="https://github.com/sinannar/presentation">Create your repo <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="opening-links"><a href={withBase('/docs/')}>Read the docs</a><a href={withBase('/news/')}>See the news</a></div>
+            <p class="opening-hint"><kbd>→</kbd> Next <span aria-hidden="true">·</span> <kbd>?</kbd> Help</p>
+          </div>
+        </section>
+        {scenes.map((scene) => (
+          <section class:list={['scene', 'scene-content', scene.step ? `scene-step-${scene.step}` : 'scene-news']} data-scene={scene.id} aria-label={scene.title} hidden>
+            <div class="scene-inner">
+              <div class="scene-copy">
+                <p class="scene-kicker">{scene.type}{scene.step && ` ${scene.step}`} <span aria-hidden="true">·</span> {scene.category}{scene.meta && ` · ${scene.meta}`}</p>
+                <h2>{scene.title}</h2>
+                <p class="scene-summary">{scene.summary}</p>
+                {scene.detail && <div class="scene-detail"><span>{scene.step ? 'Keep in mind' : 'Status'}</span><p>{scene.detail}</p></div>}
+                <a class="text-link" href={scene.href}>{scene.link} <span aria-hidden="true">↗</span></a>
+              </div>
+              {scene.step && <div class="step-visual" aria-hidden="true"><span class="step-number">0{scene.step}</span><span class="step-rule"></span><span>{scene.step === 1 ? 'Start here' : scene.step === 2 ? 'Shape the story' : 'Share it'}</span></div>}
+            </div>
+          </section>
+        ))}
+      </main>
+      <nav class="keynote-controls" aria-label="Presentation controls" hidden>
+        <button type="button" class="control-home" data-home>⌂ <span>Home</span></button>
+        <span class="control-divider" aria-hidden="true"></span>
+        <span class="current-scene"><span class="current-dot"></span><span data-scene-name aria-live="polite">{siteConfig.title}</span> <span class="scene-count" data-count></span></span>
+        <div class="control-actions">
+          <button type="button" data-prev>← <span>Back</span></button>
+          <button type="button" class="control-next" data-next>Next <span aria-hidden="true">→</span></button>
+          <button type="button" data-help aria-label="Keyboard help">? <span>Help</span></button>
+          <button type="button" data-fullscreen aria-label="Enter fullscreen">⛶ <span>Fullscreen</span></button>
+        </div>
+      </nav>
+    </div>
+    <dialog class="help-dialog" aria-labelledby="help-title" aria-describedby="help-description">
+      <div class="help-heading">
+        <div><h2 id="help-title">Getting around</h2><p id="help-description">Move through the presentation at your own pace.</p></div>
+        <button class="help-close" type="button" data-close-help aria-label="Close help">×</button>
+      </div>
+      <div class="help-intro"><strong>One step at a time</strong><p>Use Next to move through the story, or return to an earlier screen at any time.</p></div>
+      <div class="help-columns">
+        <section><h3>Move</h3><div class="help-row"><span><kbd>→</kbd> <kbd>Space</kbd></span><p>Next screen</p></div><div class="help-row"><span><kbd>←</kbd></span><p>Previous screen</p></div><div class="help-row"><span><kbd>Home</kbd></span><p>Return to the beginning</p></div></section>
+        <section><h3>Present</h3><div class="help-row"><span><kbd>F</kbd></span><p>Enter or exit fullscreen</p></div><div class="help-row"><span><kbd>Esc</kbd></span><p>Close help or exit fullscreen</p></div></section>
+        <section><h3>Explore</h3><div class="help-row"><span><kbd>?</kbd></span><p>Open this help</p></div><div class="help-row"><span>↗</span><p>Open the related topic or news page</p></div></section>
+      </div>
+    </dialog>
+    <script src="../scripts/keynote.ts"></script>
+  </body>
+</html>

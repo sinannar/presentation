@@ -1,0 +1,2 @@
+Plain text inputs are accepted too.
+They are inventoried locally and are not copied into the public build.

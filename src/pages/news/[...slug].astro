@@ -1,0 +1,13 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { displayDate } from '../../lib/content';
+import { withBase } from '../../lib/urls';
+export async function getStaticPaths() {
+  const news = await getCollection('news', ({ data }) => !data.draft);
+  return news.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+const { item } = Astro.props;
+const { Content } = await render(item);
+---
+<BaseLayout title={item.data.title} description={item.data.summary}><article class="article"><p class="eyebrow">News · {item.data.category}</p><h1>{item.data.title}</h1><p class="meta">{displayDate(item.data.published)}{item.data.status && ` · ${item.data.status}`}</p><p class="lede">{item.data.summary}</p><Content />{item.data.links.length > 0 && <aside class="card"><strong>Sources</strong><ul>{item.data.links.map((link) => <li><a href={link.url}>{link.label} ↗</a></li>)}</ul></aside>}<p><a href={withBase('/news/')}>← All news</a></p></article></BaseLayout>

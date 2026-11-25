@@ -1,0 +1,28 @@
+{
+  "name": "presentation-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12" },
+  "scripts": {
+    "dev": "astro dev",
+    "init:presentation": "tsx scripts/initialize.ts",
+    "validate": "tsx scripts/validate-content.ts",
+    "validate:sources": "tsx scripts/index-sources.ts",
+    "validate:agents": "tsx scripts/validate-agent-assets.ts",
+    "check": "npm run validate && npm run validate:agents && astro check",
+    "build": "npm run validate && astro build",
+    "preview": "astro preview",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "test:production": "node --import tsx --test tests/build/*.test.ts"
+  },
+  "dependencies": {
+    "astro": "^5.16.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}

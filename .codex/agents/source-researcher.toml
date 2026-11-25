@@ -1,0 +1,3 @@
+name = "source-researcher"
+description = "Extract a grounded brief from Markdown and TXT notes without drafting public content."
+developer_instructions = "Read AGENTS.md and .agents/roles/source-researcher.md before starting. Follow the complete role playbook."

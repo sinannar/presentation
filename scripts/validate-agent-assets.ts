@@ -1,18 +1,23 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = resolve(new URL('..', import.meta.url).pathname);
+const root = fileURLToPath(new URL('..', import.meta.url));
 const errors: string[] = [];
+const roles = ['source-researcher', 'outline-planner', 'presentation-editor', 'publication-reviewer'];
+const skills = ['source-grounding', 'outline-approval', 'markdown-authoring', 'keynote-customization', 'publication-boundaries', 'asset-validation'];
 const required = [
   'AGENTS.md',
+  'CLAUDE.md',
   '.github/copilot-instructions.md',
   'docs/agents-and-skills.md',
-  ...['source-researcher', 'outline-planner', 'presentation-editor', 'publication-reviewer']
-    .map((name) => `.github/agents/${name}.agent.md`),
-  ...['source-researcher', 'outline-planner', 'presentation-editor', 'publication-reviewer']
-    .map((name) => `.agents/roles/${name}.md`),
-  ...['source-grounding', 'outline-approval', 'markdown-authoring', 'publication-boundaries', 'asset-validation']
-    .map((name) => `.agents/skills/${name}/SKILL.md`),
+  'docs/agent-compatibility.md',
+  ...roles.flatMap((name) => [
+    `.github/agents/${name}.agent.md`, `.agents/roles/${name}.md`,
+    `.claude/agents/${name}.md`, `.cursor/agents/${name}.md`,
+    `.opencode/agents/${name}.md`, `.codex/agents/${name}.toml`,
+  ]),
+  ...skills.flatMap((name) => [`.agents/skills/${name}/SKILL.md`, `.claude/skills/${name}/SKILL.md`]),
 ];
 
 function display(path: string) { return relative(root, path) || '.'; }
@@ -34,17 +39,45 @@ function checkFrontmatter(path: string, fields: string[]) {
 for (const path of required.map((file) => join(root, file))) {
   if (!existsSync(path)) errors.push(`${display(path)}: required file is missing`);
 }
+const claudeInstructions = join(root, 'CLAUDE.md');
+if (existsSync(claudeInstructions) && !text(claudeInstructions).includes('@AGENTS.md')) {
+  errors.push('CLAUDE.md: missing AGENTS.md import');
+}
 
-for (const name of ['source-researcher', 'outline-planner', 'presentation-editor', 'publication-reviewer']) {
+for (const name of roles) {
   const agent = join(root, '.github/agents', `${name}.agent.md`);
   const role = join(root, '.agents/roles', `${name}.md`);
   if (existsSync(agent)) checkFrontmatter(agent, ['name', 'description']);
   if (existsSync(role)) checkFrontmatter(role, ['role', 'portable']);
+  for (const host of ['.github', '.claude', '.cursor', '.opencode', '.codex']) {
+    const extension = host === '.github' ? '.agent.md' : host === '.codex' ? '.toml' : '.md';
+    const path = join(root, host, 'agents', `${name}${extension}`);
+    if (!existsSync(path)) continue;
+    const content = text(path);
+    if (host === '.codex') {
+      for (const field of ['name', 'description', 'developer_instructions']) {
+        if (!new RegExp(`^${field}\\s*=\\s*".+"`, 'm').test(content)) errors.push(`${display(path)}: missing ${field}`);
+      }
+    } else {
+      checkFrontmatter(path, host === '.opencode' ? ['description', 'mode'] : ['name', 'description']);
+    }
+    if (!content.includes(`.agents/roles/${name}.md`)) errors.push(`${display(path)}: missing matching role reference`);
+  }
 }
 for (const entry of readdirSync(join(root, '.agents/skills'))) {
   const path = join(root, '.agents/skills', entry, 'SKILL.md');
   if (statSync(join(root, '.agents/skills', entry)).isDirectory() && existsSync(path)) {
     checkFrontmatter(path, ['name', 'description']);
+  }
+  for (const name of skills) {
+    const canonical = join(root, '.agents/skills', name, 'SKILL.md');
+    const adapter = join(root, '.claude/skills', name, 'SKILL.md');
+    if (!existsSync(canonical) || !existsSync(adapter)) continue;
+    checkFrontmatter(adapter, ['name', 'description']);
+    const getField = (path: string, field: string) => frontmatter(path)?.match(new RegExp(`^${field}:\\s*(.+)$`, 'm'))?.[1];
+    if (getField(adapter, 'name') !== name || getField(canonical, 'name') !== name) errors.push(`${display(adapter)}: skill name mismatch`);
+    if (getField(adapter, 'description') !== getField(canonical, 'description')) errors.push(`${display(adapter)}: description differs from canonical skill`);
+    if (!text(adapter).includes(`.agents/skills/${name}/SKILL.md`)) errors.push(`${display(adapter)}: missing matching skill reference`);
   }
 }
 

@@ -12,7 +12,8 @@ runtime.
   content.
 - Preserve the boundary between `authoring/` drafts and `src/content/`
   publication.
-- Use exact source paths in `sourceRefs` and flag unsupported claims.
+- Keep evidence mappings in `authoring/`; put source paths in tracked content
+  only when approved for publication, and flag unsupported claims.
 - Validate frontmatter, links, and referenced repository paths before handoff.
 
 ## Keynote customization
@@ -23,7 +24,5 @@ facts or public copy change. Start from the existing keynote and inspect
 Preserve reduced-motion and keyboard behavior, and validate the smallest
 affected command.
 
-Discover tool capabilities before use. Never guess an action or schema: use the
-runtime's exposed tool catalog, and call `list_canvas_capabilities` for a
-declared canvas type before opening or invoking it. Do not commit, publish, or
-deploy automatically.
+Discover tool capabilities before use. Never guess an action or schema. Do not
+commit, publish, or deploy automatically.

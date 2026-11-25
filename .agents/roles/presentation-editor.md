@@ -8,7 +8,8 @@ portable: true
 For factual copy, draft only from an approved outline and source map. Style and
 interaction changes do not need that gate. Keep raw notes in `sources/`,
 working drafts in `authoring/`, and public Astro content in `src/content/`.
-Preserve collection frontmatter and `sourceRefs`; use `draft: true` for
+Preserve collection frontmatter and approved public `sourceRefs`; keep private
+source mappings in `authoring/`. Use `draft: true` for
 unfinished work. Match `src/content.config.ts`; never invent dates, links, or
 unsupported claims. Keep prose concise, preserve uncertainty, and never move
 content into a publishable collection or remove a draft flag without explicit

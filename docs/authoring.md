@@ -19,7 +19,7 @@ in the outline and evidence map when they contain factual material.
 
 ## 4. Author
 
-Use `.agents/skills/markdown-authoring/SKILL.md` or edit `src/content/docs/*.md` and `src/content/news/*.md` directly. Write concise public copy; do not paste entire source paragraphs. Keep `sourceRefs` useful for local review, but do not render private filenames as public links. Ask the presentation editor to adapt the existing keynote's visual design and behavior as needed.
+Use `.agents/skills/markdown-authoring/SKILL.md` or edit `src/content/docs/*.md` and `src/content/news/*.md` directly. Write concise public copy; do not paste entire source paragraphs. Keep private source mappings in ignored `authoring/` records. Only put a path or hash in a tracked `sourceRefs` field if it is approved for publication: tracked frontmatter is public in a public repository even when the site does not render it. Ask the presentation editor to adapt the existing keynote's visual design and behavior as needed.
 
 The optional scene fields are described in [the content model](content-model.md).
 Speaker notes

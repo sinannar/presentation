@@ -10,7 +10,8 @@ customization surfaces.
 ## Working rules
 
 1. Read relevant Markdown/TXT files in `sources/` before making factual claims.
-   Keep a source map and cite source paths in `sourceRefs` where supported.
+   Keep a source map in `authoring/`. Put source references in tracked content
+   only when their paths and hashes are approved for publication.
 2. For factual authoring, propose an audience, message, and section outline.
    A person must approve that outline before public copy is drafted.
 3. Style-only work does not need source research or outline approval. It may
@@ -26,9 +27,8 @@ customization surfaces.
    Plan configurable category/section groups and use the existing `featured`
    flag for highlights, without assuming a fixed number of items.
 7. Discover capabilities before using tools: use only tools exposed by the
-   current runtime, inspect a canvas type with `list_canvas_capabilities`, and
-   never invent tool names, actions, or arguments. If no suitable tool exists,
-   use repository files and documented commands.
+   current runtime and never invent tool names, actions, or arguments. If no
+   suitable tool exists, use repository files and documented commands.
 8. Run the smallest relevant checks. For this toolkit use
    `npm run validate:agents`; use `npm run validate` and `npm run check` when
    content or application behavior is involved.

@@ -64,11 +64,11 @@ const scenes = [
         <button type="button" class="control-home" data-home>⌂ <span>Home</span></button>
         <span class="control-divider" aria-hidden="true"></span>
         <span class="current-scene"><span class="current-dot"></span><span data-scene-name aria-live="polite">{siteConfig.title}</span> <span class="scene-count" data-count></span></span>
+        <span data-keynote-status role="status"></span>
         <div class="control-actions">
           <button type="button" data-prev>← <span>Back</span></button>
           <button type="button" class="control-next" data-next>Next <span aria-hidden="true">→</span></button>
           <button type="button" data-help aria-label="Keyboard help">? <span>Help</span></button>
-          <button type="button" data-fullscreen aria-label="Enter fullscreen">⛶ <span>Fullscreen</span></button>
         </div>
       </nav>
     </div>
@@ -80,7 +80,7 @@ const scenes = [
       <div class="help-intro"><strong>One step at a time</strong><p>Use Next to move through the story, or return to an earlier screen at any time.</p></div>
       <div class="help-columns">
         <section><h3>Move</h3><div class="help-row"><span><kbd>→</kbd> <kbd>Space</kbd></span><p>Next screen</p></div><div class="help-row"><span><kbd>←</kbd></span><p>Previous screen</p></div><div class="help-row"><span><kbd>Home</kbd></span><p>Return to the beginning</p></div></section>
-        <section><h3>Present</h3><div class="help-row"><span><kbd>F</kbd></span><p>Enter or exit fullscreen</p></div><div class="help-row"><span><kbd>Esc</kbd></span><p>Close help or exit fullscreen</p></div><div class="help-row"><span>Remote</span><p>Pair a phone or tablet</p></div></section>
+        <section><h3>Present</h3><div class="help-row"><span><kbd>F</kbd></span><p>Enter or exit fullscreen</p></div><div class="help-row"><span><kbd>R</kbd></span><p>Open remote pairing</p></div><div class="help-row"><span><kbd>Esc</kbd></span><p>Close a dialog or exit fullscreen</p></div></section>
         <section><h3>Explore</h3><div class="help-row"><span><kbd>?</kbd></span><p>Open this help</p></div><div class="help-row"><span>↗</span><p>Open the related topic or news page</p></div></section>
       </div>
     </dialog>

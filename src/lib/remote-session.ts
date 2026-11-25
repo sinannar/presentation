@@ -41,11 +41,11 @@ export function parseMessage(data: unknown): Message | null {
 }
 
 export async function mqttTransport(handlers: Parameters<TransportFactory>[0]): Promise<Transport> {
-  const { connect } = await import('mqtt');
+  const { default: mqtt } = await import('mqtt');
   if (handlers.signal.aborted) throw new Error('Cancelled');
   return new Promise((resolve, reject) => {
-    const client = connect(BROKER_URL, {
-      reconnectPeriod: 0, connectTimeout: 10_000, clean: true,
+    const client = mqtt.connect(BROKER_URL, {
+      reconnectPeriod: 0, connectTimeout: 10_000, clean: true, forceNativeWebSocket: true,
     });
     let settled = false;
     handlers.signal.addEventListener('abort', () => {

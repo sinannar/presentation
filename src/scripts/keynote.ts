@@ -10,10 +10,10 @@ const previous = document.querySelector<HTMLButtonElement>('[data-prev]');
 const next = document.querySelector<HTMLButtonElement>('[data-next]');
 const sceneLabel = document.querySelector<HTMLElement>('[data-scene-name]');
 const count = document.querySelector<HTMLElement>('[data-count]');
-const fullscreen = document.querySelector<HTMLButtonElement>('[data-fullscreen]');
+const status = document.querySelector<HTMLElement>('[data-keynote-status]');
 const stage = document.querySelector<HTMLElement>('.keynote-stage');
 
-if (scenes.length && controls && dialog && previous && next && sceneLabel && count && fullscreen && stage) {
+if (scenes.length && controls && dialog && previous && next && sceneLabel && count && status && stage) {
   let current = 0;
   const remoteListeners = new Set<() => void>();
   const sceneName = (scene: HTMLElement) =>
@@ -38,14 +38,16 @@ if (scenes.length && controls && dialog && previous && next && sceneLabel && cou
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
       else if (document.documentElement.requestFullscreen) await document.documentElement.requestFullscreen();
+      else throw new Error('Fullscreen unavailable');
+      status.textContent = '';
     } catch {
-      fullscreen.textContent = 'Fullscreen unavailable';
+      status.textContent = 'Fullscreen is unavailable in this browser.';
     }
   };
   const openHelp = () => { if (!dialog.open) dialog.showModal(); };
   controls.hidden = false;
   render(readHash(), false);
-  installKeynoteRemote({
+  const remote = installKeynoteRemote({
     getIndex: () => current,
     getCount: () => scenes.length,
     setIndex: (index) => render(index, true, true),
@@ -61,16 +63,12 @@ if (scenes.length && controls && dialog && previous && next && sceneLabel && cou
   next.addEventListener('click', () => render(current + 1, true, true));
   document.querySelector('[data-help]')?.addEventListener('click', openHelp);
   document.querySelector('[data-close-help]')?.addEventListener('click', () => dialog.close());
-  fullscreen.addEventListener('click', toggleFullscreen);
-  document.addEventListener('fullscreenchange', () => {
-    fullscreen.setAttribute('aria-label', document.fullscreenElement ? 'Exit fullscreen' : 'Enter fullscreen');
-  });
   document.addEventListener('keydown', (event) => {
     if (event.defaultPrevented) return;
     const target = event.target;
     const element = target instanceof HTMLElement ? target : null;
     const action = keynoteShortcut(event.key, {
-      dialogOpen: dialog.open,
+      dialogOpen: dialog.open || remote.isOpen(),
       modified: event.altKey || event.ctrlKey || event.metaKey,
       editing: !!(element?.isContentEditable || element?.closest('input, textarea, select')),
       interactive: !!element?.closest('button, a'),
@@ -83,6 +81,7 @@ if (scenes.length && controls && dialog && previous && next && sceneLabel && cou
       case 'home': render(0); break;
       case 'help': openHelp(); break;
       case 'fullscreen': void toggleFullscreen(); break;
+      case 'remote': remote.open(); break;
     }
   });
 }

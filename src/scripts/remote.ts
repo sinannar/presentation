@@ -4,13 +4,7 @@ import { newCode, validCode } from '../lib/remote-crypto';
 
 const warning = 'The public broker sees IP addresses, topic and timing, and can disrupt the session. Messages are encrypted; a compromised device or anyone with the pairing code can control the presentation. Speaker notes are not supported.';
 
-export function installKeynoteRemote(hooks: HostHooks): () => void {
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.textContent = 'Remote';
-  button.setAttribute('aria-label', 'Phone or tablet remote, off');
-  (document.querySelector('.control-actions') || document.body).append(button);
-
+export function installKeynoteRemote(hooks: HostHooks) {
   const dialog = document.createElement('dialog');
   dialog.className = 'remote-dialog';
   dialog.setAttribute('aria-labelledby', 'remote-host-title');
@@ -30,7 +24,10 @@ export function installKeynoteRemote(hooks: HostHooks): () => void {
       <button class="remote-close" type="button">Close</button>
     </div>`;
   document.body.append(dialog);
-  dialog.querySelector('.remote-warning')!.textContent = warning;
+  const localHost = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
+  dialog.querySelector('.remote-warning')!.textContent = warning + (localHost
+    ? ' This localhost link only works on this computer. Use the HTTPS published site on both devices for phone pairing.'
+    : '');
   const status = dialog.querySelector<HTMLElement>('.remote-status')!;
   const pairing = dialog.querySelector<HTMLElement>('.remote-pairing')!;
   const qr = dialog.querySelector<HTMLImageElement>('.remote-qr')!;
@@ -53,12 +50,14 @@ export function installKeynoteRemote(hooks: HostHooks): () => void {
     codeInput.value = '';
     enable.disabled = false;
     disable.disabled = true;
-    button.textContent = 'Remote';
-    button.setAttribute('aria-label', 'Phone or tablet remote, off');
   };
   enable.addEventListener('click', () => {
     stop();
     const run = generation;
+    if (!window.isSecureContext || !crypto.subtle) {
+      status.textContent = 'Remote requires HTTPS or localhost. Open the published HTTPS site and try again.';
+      return;
+    }
     try {
       const code = newCode();
       codeInput.value = code;
@@ -67,8 +66,6 @@ export function installKeynoteRemote(hooks: HostHooks): () => void {
       pairing.hidden = false;
       enable.disabled = true;
       disable.disabled = false;
-      button.textContent = 'Remote on';
-      button.setAttribute('aria-label', 'Phone or tablet remote, on');
       session = createRemoteSession({
         role: 'host', code, hooks,
         status(value) {
@@ -98,10 +95,13 @@ export function installKeynoteRemote(hooks: HostHooks): () => void {
   disable.addEventListener('click', () => { stop(); status.textContent = 'Remote is off. No relay connection.'; });
   dialog.querySelector('.remote-close')!.addEventListener('click', () => dialog.close());
   dialog.addEventListener('keydown', (event) => event.stopPropagation());
-  button.addEventListener('click', () => { if (!dialog.open) dialog.showModal(); });
   const onPageHide = () => { stop(); status.textContent = 'Remote is off. No relay connection.'; };
   window.addEventListener('pagehide', onPageHide);
-  return () => { window.removeEventListener('pagehide', onPageHide); stop(); dialog.remove(); button.remove(); };
+  return {
+    open: () => { if (!dialog.open) dialog.showModal(); },
+    isOpen: () => dialog.open,
+    dispose: () => { window.removeEventListener('pagehide', onPageHide); stop(); dialog.remove(); },
+  };
 }
 
 export function initializeRemotePage(): void {

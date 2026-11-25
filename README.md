@@ -11,9 +11,9 @@ An Astro keynote template for turning Markdown and plain-text notes into a sourc
 5. Follow the guided workflow in `docs/authoring.md`, using the included agents and skills when available.
 6. Review curated pages in `src/content/`, then run `npm run check` and `npm run build`.
 
-The starter opens as a windowed keynote. Use the arrow keys or Space to navigate, `?` for help, and `F` or the fullscreen button to opt into fullscreen. Supporting content lives under `/docs/` and `/news/`. Raw notes and local authoring records are never copied into the built site.
+The starter opens as a windowed keynote. Use the arrow keys or Space to navigate, `?` for help, and `F` to opt into fullscreen. Supporting content lives under `/docs/` and `/news/`. Raw notes and local authoring records are never copied into the built site.
 
-The optional **Remote** control lets a phone or tablet navigate the presentation after both devices opt in. It uses a public relay; see [remote-control.md](docs/remote-control.md) for pairing, security, and limitations.
+Press `R` to open the optional remote control and pair a phone or tablet after both devices opt in. It uses a public relay; see [remote-control.md](docs/remote-control.md) for pairing, security, and limitations.
 
 ## Commands
 

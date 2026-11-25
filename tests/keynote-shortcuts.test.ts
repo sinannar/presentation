@@ -11,11 +11,16 @@ test('keynote shortcuts navigate and open help in the normal presentation', () =
   assert.equal(keynoteShortcut('Home', idle), 'home');
   assert.equal(keynoteShortcut('?', idle), 'help');
   assert.equal(keynoteShortcut('f', idle), 'fullscreen');
+  assert.equal(keynoteShortcut('F', idle), 'fullscreen');
+  assert.equal(keynoteShortcut('r', idle), 'remote');
+  assert.equal(keynoteShortcut('R', idle), 'remote');
 });
 
 test('shortcuts respect dialogs, editing, modifiers and native button activation', () => {
   assert.equal(keynoteShortcut('?', { ...idle, dialogOpen: true }), undefined);
   assert.equal(keynoteShortcut('f', { ...idle, editing: true }), undefined);
+  assert.equal(keynoteShortcut('r', { ...idle, dialogOpen: true }), undefined);
+  assert.equal(keynoteShortcut('r', { ...idle, editing: true }), undefined);
   assert.equal(keynoteShortcut('ArrowRight', { ...idle, modified: true }), undefined);
   assert.equal(keynoteShortcut(' ', { ...idle, interactive: true }), undefined);
   assert.equal(keynoteShortcut('?', { ...idle, interactive: true }), 'help');

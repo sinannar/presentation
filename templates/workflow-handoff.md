@@ -11,3 +11,9 @@
 - Explicit human publication approval and exact approved files:
 
 Approval entries are human workflow records, not authentication.
+
+For an explicitly requested `news-agent` autopilot run, keep structured stage
+state in `authoring/<topic>/news-run.json` using
+`templates/news-run-state.json`. Record the request and decisions rather than
+inventing outline or publication approvals. State is not authorization; a new
+session needs an explicit user request to resume.

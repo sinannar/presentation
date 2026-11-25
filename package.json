@@ -12,6 +12,7 @@
     "validate": "tsx scripts/validate-content.ts",
     "validate:sources": "tsx scripts/index-sources.ts",
     "validate:research": "tsx scripts/validate-research.ts",
+    "validate:news-run": "tsx scripts/validate-news-run.ts",
     "validate:agents": "tsx scripts/validate-agent-assets.ts",
     "check": "npm run validate && npm run validate:agents && astro check",
     "build": "npm run validate && astro build",

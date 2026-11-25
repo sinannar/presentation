@@ -35,7 +35,16 @@ may save its proposal and handoff; final-review mode is read-only. Host permissi
 path and mode boundaries; Codex custom agents inherit the parent session's
 permissions. Review requested actions and select a read-only mode for tasks
 that do not require writes. No adapter pins a model, configures MCP, or
-authorizes a commit, deployment, or access to private inputs.
+authorizes a commit, deployment, or access to private inputs. Explicit
+`news-agent` autopilot is a skills-first exception to manual content approval
+gates, not a bypass for host permission prompts. Commits require separate
+per-run opt-in and scope; hosted platforms may control commit behavior.
+
+To smoke-test autopilot discovery, ask the host to identify `news-agent` and
+read `.agents/roles/news-agent.md` and `.agents/skills/news-orchestration/SKILL.md`
+without starting a run. OpenCode's profile is primary-capable. On hosts that
+expose only subagents, ask the main agent to follow those files directly.
+Actual tool availability, web access and invocation must be tested separately.
 
 ## Smoke test: Claude Code
 

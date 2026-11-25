@@ -7,6 +7,13 @@ may correct those generated records and record changes; original user notes
 remain unchanged. Separate sessions require accessible handoff files and
 explicit permission before sharing ignored material.
 
+The steps below describe **manual mode**. Explicit
+[news-agent autopilot](../README.md#one-agent-autopilot) selects and records its
+own evidence-backed outline and can make eligible scoped content publishable
+locally without separate approval pauses. It does not deploy; commits and
+image reuse require separate authorization. Verification by the same agent is
+not independent review.
+
 ## 1. Intake
 
 Place Markdown or plain-text notes under `sources/`. Keep the original files unchanged. Run `npm run validate:sources` to confirm which files are available.

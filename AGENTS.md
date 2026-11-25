@@ -14,7 +14,7 @@ customization surfaces.
    web research may be saved only under the explicitly authorized
    `sources/news/<topic>/` directory, with its brief, review, and handoff under
    ignored `authoring/`.
-2. Use the four-stage factual workflow across explicit, separate prompts:
+2. In the manual mode, use the four-stage factual workflow across explicit, separate prompts:
    source researcher gathers traceable online evidence from the topic prompt
    (local notes are optional); publication reviewer uses explicit
    `source-review` mode to correct only generated records and review/handoff
@@ -27,7 +27,7 @@ customization surfaces.
    reports drafts omitted from the public build and may write a readiness
    handoff only to authorized `authoring/<topic>/`; it never publishes.
    Publication review uses explicit `final-review` mode and is read-only.
-3. A person must approve the identified outline revision and scope before
+3. In manual mode, a person must approve the identified outline revision and scope before
    factual public copy is drafted. A separate explicit publication approval is
    required before content becomes publishable.
 4. Style-only work does not need source research or outline approval. It may
@@ -64,16 +64,27 @@ customization surfaces.
 
 ## Boundaries
 
-Agents can research, outline, draft, customize, revise, and validate. No agent
-commits, publishes, deploys, or claims publication automatically. Never remove
+Agents can research, outline, draft, customize, revise, and validate. In manual
+mode no agent commits or makes content publishable automatically. Never remove
 `draft: true`, move a draft into a published collection, or claim publication
 without an explicit request and a successful validation/build.
+
+An explicit request to run or resume `news-agent` autopilot authorizes that
+run to select its own evidence-backed outline and make eligible scoped content
+publishable locally after review and validation, without separate outline or
+publication approval. It does not imply a human approved an outline, grant
+image reuse rights, authorize deployment or bypass tool permissions. It does
+not apply to specialist sessions or authorize a later session to resume.
+Stage commits are off unless explicitly opted into for the run with a defined
+non-sensitive scope; follow `.agents/skills/news-orchestration/SKILL.md`.
+Never push, merge, or deploy automatically.
 
 Speaker notes bundled with the site are **public**, even in a presenter view.
 Never put sensitive data or raw source notes there; curate and review them like
 other public copy. Presenter-specific details are stored locally, not treated
 as a private server or a live external integration. Preserve evidence and
-human outline and publication review for all factual material.
+review for all factual material, with human outline and publication approval
+in manual mode and documented self-verification in explicit autopilot mode.
 
 For the map and presenter workflows, preserve `R` for remote, `M` and `G` for
 the searchable map, `P` for presenter, `N` for notes, `E` for details, `F` for

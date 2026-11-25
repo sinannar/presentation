@@ -45,7 +45,7 @@ test('agent asset validation handles spaces and detects broken adapters', () => 
   }
 });
 
-test('all four-role workflow agent and skill adapters are required', () => {
+test('manual and autopilot workflow adapters are required', () => {
   const project = resolve('.');
   const root = mkdtempSync(join(tmpdir(), 'presentation agent coverage '));
   try {
@@ -59,6 +59,15 @@ test('all four-role workflow agent and skill adapters are required', () => {
     });
     assert.notEqual(broken.status, 0);
     assert.match(broken.stderr, /publication-reviewer\.md: required file is missing/);
+    unlinkSync(join(root, '.github/agents/news-agent.agent.md'));
+    unlinkSync(join(root, '.claude/skills/news-orchestration/SKILL.md'));
+    const autopilot = spawnSync(process.execPath, ['--import', 'tsx', join(root, 'scripts/validate-agent-assets.ts')], {
+      cwd: project, encoding: 'utf8',
+    });
+    assert.notEqual(autopilot.status, 0);
+    assert.match(autopilot.stderr, /news-agent\.agent\.md: required file is missing/);
+    assert.match(autopilot.stderr, /news-orchestration\/SKILL\.md: required file is missing/);
+    assert.match(readFileSync(join(root, '.opencode/agents/news-agent.md'), 'utf8'), /^mode: (?:all|primary)$/m);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

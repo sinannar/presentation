@@ -1,6 +1,7 @@
 # From research to a presentation
 
-The primary flow is **Source researcher → Publication reviewer → Outline
+Choose [news-agent autopilot](../README.md#one-agent-autopilot) for a single
+skills-driven run, or the manual flow **Source researcher → Publication reviewer → Outline
 planner → Presentation editor**. Each agent has a role; skills are reusable
 procedures that guide a role. You can use one session, or hand files between
 sessions. Agents adapt the existing keynote instead of replacing the site.
@@ -10,6 +11,7 @@ The [README](../README.md#agent-workflow) has four concise prompts.
 
 | Agent | Purpose | Example prompt |
 | --- | --- | --- |
+| [News agent](../.agents/roles/news-agent.md) | Run research, self-verification, outline, editing and local validation without approval pauses when explicitly requested. | “Use news-agent autopilot for [event], [dates], [audience]; prepare a local site without deploying.” |
 | [Source researcher](../.agents/roles/source-researcher.md) | Search the web when requested, verify sources, and create source-news records; or map existing notes. | “Research [event] between [dates] for [audience], write records with evidence under `sources/news/event/`, and flag gaps.” |
 | [Publication reviewer](../.agents/roles/publication-reviewer.md) | Independently check and correct generated source-news records, recording changes and unresolved issues. In optional final-review mode, review the site without edits. | “Review `sources/news/event/` against original sources; correct supported errors and write a review log. Do not edit the site.” |
 | [Outline planner](../.agents/roles/outline-planner.md) | Select and order reviewed stories with evidence, then stop for human approval. | “Plan sections and scene order from the reviewed news and report omissions. Stop for my approval.” |
@@ -28,6 +30,7 @@ agent to read the matching canonical role and skill files directly.
 
 | Skill | Purpose | Example prompt |
 | --- | --- | --- |
+| [news-orchestration](../.agents/skills/news-orchestration/SKILL.md) | Coordinate stages, state, resume and optional scoped checkpoints. | “Resume news-agent autopilot for [topic] from the run state; do not commit.” |
 | [web-research](../.agents/skills/web-research/SKILL.md) | Find and inspect original sources; create attributed source-news records. | “Use web-research for [event] during [dates]; flag inaccessible sources.” |
 | [source-news-review](../.agents/skills/source-news-review/SKILL.md) | Verify and correct generated research records, recording evidence and changes. | “Use source-news-review on `sources/news/event/`; report unresolved claims.” |
 | [source-grounding](../.agents/skills/source-grounding/SKILL.md) | Map claims to file-qualified ranges and hashes. | “Build an evidence map for the reviewed notes, keeping private paths in `authoring/`.” |
@@ -37,7 +40,27 @@ agent to read the matching canonical role and skill files directly.
 | [publication-boundaries](../.agents/skills/publication-boundaries/SKILL.md) | Separate source notes, drafts, and publishable content. | “Check that private notes and unapproved images are not published.” |
 | [asset-validation](../.agents/skills/asset-validation/SKILL.md) | Check toolkit frontmatter and paths. | “Run `npm run validate:agents` and report the result.” |
 
-## Four-stage walkthrough
+## Autopilot and manual modes
+
+Explicit autopilot chooses and records a grounded outline and makes eligible
+scoped content publishable locally without separate approval pauses. It uses
+the other skills directly; self-verification is not an independent review.
+Manual specialists retain the outline and publication approval gates below.
+Autopilot stops if web access, verified material, safe workspace ownership, or
+validation is insufficient. It never deploys, and commits only when opted in
+for the run with an exact non-sensitive scope. See the [start, resume and
+checkpoint prompts](../README.md#one-agent-autopilot).
+
+Each completed stage records checks and artifact hashes in
+`authoring/<topic>/news-run.json` from
+[`templates/news-run-state.json`](../templates/news-run-state.json). Run
+`npm run validate:news-run -- authoring/<topic>/news-run.json`; this validates
+structure and current artifact identity, not facts, rights, authorization or
+Git history. Changes invalidate affected stages and their dependents.
+Explicitly request resume in every new session. Some hosts manage commits and
+cannot guarantee stage-level checkpoints.
+
+## Four-stage manual walkthrough
 
 1. **Start.** Create a repository using the template. Open a
    [Codespace or local Dev Container](devcontainer.md), or use a local Node

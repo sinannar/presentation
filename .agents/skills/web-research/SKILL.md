@@ -49,9 +49,10 @@ description: Gather current web evidence into traceable, private source-news rec
 
    Report the exact result. The command checks record metadata and reference
    integrity, not factual accuracy, source trust, or image rights.
-9. Do not draft public presentation copy, edit original notes, approve an
-   outline, publish, commit, or deploy. Hand off to `publication-reviewer` in
-   `source-review` mode.
+9. In the research stage do not draft public presentation copy, edit original
+   notes, approve an outline, publish, commit, or deploy. In the manual
+   workflow hand off to `publication-reviewer` in `source-review` mode; in
+   explicit news-agent autopilot continue with the source-review skill directly.
 
 Local source notes and authoring outputs are Git-ignored, not confidential, and
 not automatically shared between separate sessions.

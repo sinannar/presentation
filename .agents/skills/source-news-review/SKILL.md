@@ -5,8 +5,10 @@ description: Verify generated web-research records and review handoffs without c
 
 # Source news review
 
-Ask the `publication-reviewer` to use an explicit mode: `source-review` or
-`final-review`. If absent, do not write.
+In the manual workflow ask the `publication-reviewer` to use an explicit mode:
+`source-review` or `final-review`. If absent, do not write. An explicitly
+requested `news-agent` autopilot invokes source-review directly; its second
+pass is self-verification, not independent review.
 
 ## Source-review mode
 

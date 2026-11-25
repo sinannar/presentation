@@ -4,14 +4,16 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const errors: string[] = [];
-const roles = ['source-researcher', 'outline-planner', 'presentation-editor', 'publication-reviewer'];
-const skills = ['source-grounding', 'web-research', 'source-news-review', 'outline-approval', 'markdown-authoring', 'keynote-customization', 'publication-boundaries', 'asset-validation'];
+const roles = ['source-researcher', 'outline-planner', 'presentation-editor', 'publication-reviewer', 'news-agent'];
+const skills = ['source-grounding', 'web-research', 'source-news-review', 'outline-approval', 'markdown-authoring', 'keynote-customization', 'publication-boundaries', 'asset-validation', 'news-orchestration'];
 const required = [
   'AGENTS.md',
   'CLAUDE.md',
   'README.md',
   'package.json',
   'scripts/validate-research.ts',
+  'scripts/validate-news-run.ts',
+  'templates/news-run-state.json',
   'templates/research-brief.md',
   'templates/source-news.md',
   'templates/research-review.md',

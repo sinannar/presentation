@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "runId": "replace-with-run-id",
+  "mode": "autopilot",
+  "request": "Replace with the user's explicit autopilot request and scope",
+  "topic": "replace-with-topic",
+  "commitOptIn": false,
+  "commitScope": [],
+  "stages": [
+    { "name": "research", "status": "pending", "inputs": [], "outputs": [], "checks": [], "blockers": [], "checkpoint": null },
+    { "name": "verify", "status": "pending", "inputs": [], "outputs": [], "checks": [], "blockers": [], "checkpoint": null },
+    { "name": "outline", "status": "pending", "inputs": [], "outputs": [], "checks": [], "blockers": [], "checkpoint": null },
+    { "name": "edit", "status": "pending", "inputs": [], "outputs": [], "checks": [], "blockers": [], "checkpoint": null },
+    { "name": "finalize", "status": "pending", "inputs": [], "outputs": [], "checks": [], "blockers": [], "checkpoint": null }
+  ]
+}

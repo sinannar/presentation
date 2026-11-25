@@ -1,3 +1,8 @@
+import { keynoteShortcut } from '../lib/keynote-shortcuts';
+import { installKeynoteRemote } from './remote';
+
+document.documentElement.classList.add('js');
+
 const scenes = [...document.querySelectorAll<HTMLElement>('[data-scene]')];
 const controls = document.querySelector<HTMLElement>('.keynote-controls');
 const dialog = document.querySelector<HTMLDialogElement>('.help-dialog');
@@ -10,6 +15,7 @@ const stage = document.querySelector<HTMLElement>('.keynote-stage');
 
 if (scenes.length && controls && dialog && previous && next && sceneLabel && count && fullscreen && stage) {
   let current = 0;
+  const remoteListeners = new Set<() => void>();
   const sceneName = (scene: HTMLElement) =>
     scene.querySelector('h1, h2')?.textContent?.trim() || 'Presentation';
   const render = (index: number, updateHash = true, moveFocus = false) => {
@@ -21,6 +27,7 @@ if (scenes.length && controls && dialog && previous && next && sceneLabel && cou
     next.disabled = current === scenes.length - 1;
     if (updateHash) history.replaceState(null, '', `#${encodeURIComponent(scenes[current].dataset.scene || 'home')}`);
     if (moveFocus) stage.focus({ preventScroll: true });
+    remoteListeners.forEach((listener) => listener());
   };
   const readHash = () => {
     let id = '';
@@ -38,6 +45,15 @@ if (scenes.length && controls && dialog && previous && next && sceneLabel && cou
   const openHelp = () => { if (!dialog.open) dialog.showModal(); };
   controls.hidden = false;
   render(readHash(), false);
+  installKeynoteRemote({
+    getIndex: () => current,
+    getCount: () => scenes.length,
+    setIndex: (index) => render(index, true, true),
+    onNavigate: (listener) => {
+      remoteListeners.add(listener);
+      return () => remoteListeners.delete(listener);
+    },
+  });
   window.addEventListener('hashchange', () => render(readHash(), false));
   document.querySelector('[data-start]')?.addEventListener('click', () => render(1, true, true));
   document.querySelector('[data-home]')?.addEventListener('click', () => render(0, true, true));
@@ -70,5 +86,4 @@ if (scenes.length && controls && dialog && previous && next && sceneLabel && cou
     }
   });
 }
-import { keynoteShortcut } from '../lib/keynote-shortcuts';
 

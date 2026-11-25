@@ -12,7 +12,7 @@ order: 1
 draft: false
 featured: false
 tags: [topic]
-sourceRefs: [notes.md#L1-L8]
+sourceRefs: []
 takeaway: The point to remember
 ```
 
@@ -28,3 +28,5 @@ links:
 ```
 
 `draft: true` entries are excluded from routes and builds. Source references are for authoring/provenance; public links must be intentionally selected.
+
+Run `npm run validate:sources` to obtain file-qualified references in the format `sources/notes.md#L1-L8@sha256:<full-file-hash>`. Add a reference only for lines supporting the entry, and use `npm run validate:sources -- --check-refs` when the private inputs are available. Hash checks detect changes; they do not prove a claim is true. Do not treat source references as public links.

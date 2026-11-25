@@ -1,4 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const common = {
   title: z.string().min(1),
@@ -11,7 +13,7 @@ const common = {
 };
 
 const docs = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/docs' }),
   schema: z.object({
     ...common,
     order: z.number().int().nonnegative().default(0),
@@ -20,12 +22,12 @@ const docs = defineCollection({
 });
 
 const news = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: './src/content/news' }),
   schema: z.object({
     ...common,
     published: z.coerce.date(),
     status: z.string().optional(),
-    links: z.array(z.object({ label: z.string(), url: z.string().url() })).default([]),
+    links: z.array(z.object({ label: z.string(), url: z.url({ protocol: /^https?$/ }) })).default([]),
   }),
 });
 

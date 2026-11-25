@@ -1,0 +1,45 @@
+.remote-dialog, .remote-page {
+  color: #f7f8fb;
+}
+.remote-dialog {
+  width: min(38rem, calc(100% - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  padding: 1.5rem;
+  border: 1px solid #626780;
+  border-radius: 1rem;
+  background: #121725;
+}
+.remote-dialog::backdrop { background: #000c; }
+.remote-page { max-width: 42rem; }
+.remote-page h1 { font-size: clamp(2.4rem, 9vw, 4rem); }
+.remote-dialog p, .remote-page p { line-height: 1.5; }
+.remote-pairing img { display: block; max-width: 100%; background: white; }
+.remote-pairing label, .remote-page label { display: block; margin-top: 1rem; }
+.remote-dialog input, .remote-page input {
+  display: block;
+  width: 100%;
+  margin: .4rem 0;
+  padding: .7rem;
+  border: 1px solid #afb6c9;
+  border-radius: .4rem;
+  background: #090b12;
+  color: white;
+  font: inherit;
+}
+.remote-code { font-family: monospace !important; }
+.remote-link { overflow-wrap: anywhere; }
+.remote-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+.remote-dialog button, .remote-page button {
+  min-height: 2.75rem;
+  padding: .65rem 1rem;
+  border: 1px solid #afb6c9;
+  border-radius: .5rem;
+  background: #303752;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+.remote-dialog button:disabled, .remote-page button:disabled { opacity: .5; cursor: default; }
+.remote-dialog :focus-visible, .remote-page :focus-visible { outline: 3px solid #c8b7ff; outline-offset: 3px; }
+.remote-navigation button { flex: 1; min-height: 4rem; }

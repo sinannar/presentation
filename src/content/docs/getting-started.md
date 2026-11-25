@@ -12,4 +12,4 @@ Visit [sinannar/presentation](https://github.com/sinannar/presentation), select 
 
 ## Preview locally
 
-Install Node.js 22 or newer, run `npm ci`, then run `npm run dev`. Open the local URL printed in your terminal.
+Install Node.js 22.23.4 or newer, run `npm ci`, then run `npm run dev`. Open the local URL printed in your terminal.

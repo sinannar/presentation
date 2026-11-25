@@ -11,5 +11,5 @@ export async function publishedNews() {
 }
 
 export function displayDate(date: Date): string {
-  return new Intl.DateTimeFormat('en', { dateStyle: 'medium' }).format(date);
+  return new Intl.DateTimeFormat('en', { dateStyle: 'medium', timeZone: 'UTC' }).format(date);
 }

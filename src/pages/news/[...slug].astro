@@ -5,7 +5,7 @@ import { displayDate } from '../../lib/content';
 import { withBase } from '../../lib/urls';
 export async function getStaticPaths() {
   const news = await getCollection('news', ({ data }) => !data.draft);
-  return news.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+  return news.map((item) => ({ params: { slug: item.id }, props: { item } }));
 }
 const { item } = Astro.props;
 const { Content } = await render(item);

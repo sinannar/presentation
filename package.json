@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22.12" },
+  "engines": { "node": ">=22.23.4" },
   "scripts": {
     "dev": "astro dev",
     "init:presentation": "tsx scripts/initialize.ts",
@@ -17,12 +17,19 @@
     "test:production": "node --import tsx --test tests/build/*.test.ts"
   },
   "dependencies": {
-    "astro": "^5.16.0"
+    "astro": "^7.4.13",
+    "mqtt": "^5.16.1",
+    "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
     "@types/node": "^22.0.0",
+    "@types/qrcode": "^1.5.6",
+    "js-yaml": "^4.1.0",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "unified": "^11.0.5"
   }
 }

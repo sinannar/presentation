@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/urls';
 export async function getStaticPaths() {
   const docs = await getCollection('docs', ({ data }) => !data.draft);
-  return docs.map((doc) => ({ params: { slug: doc.slug }, props: { doc } }));
+  return docs.map((doc) => ({ params: { slug: doc.id }, props: { doc } }));
 }
 const { doc } = Astro.props;
 const { Content } = await render(doc);

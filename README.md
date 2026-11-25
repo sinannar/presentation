@@ -5,13 +5,15 @@ An Astro keynote template for turning Markdown and plain-text notes into a sourc
 ## Use this template
 
 1. On [sinannar/presentation](https://github.com/sinannar/presentation), select **Use this template**, create a repository, and clone it.
-2. Install Node.js 22+ and run `npm ci`.
+2. Install Node.js 22.23.4 or newer and run `npm ci`.
 3. Edit `site.config.ts` for the title, author, tagline, and sections.
 4. Run `npm run init:presentation` to create a local brief without overwriting an existing one. Put private or local `.md`/`.txt` inputs in `sources/`. Both locations are ignored by Git.
 5. Follow the guided workflow in `docs/authoring.md`, using the included agents and skills when available.
 6. Review curated pages in `src/content/`, then run `npm run check` and `npm run build`.
 
 The starter opens as a windowed keynote. Use the arrow keys or Space to navigate, `?` for help, and `F` or the fullscreen button to opt into fullscreen. Supporting content lives under `/docs/` and `/news/`. Raw notes and local authoring records are never copied into the built site.
+
+The optional **Remote** control lets a phone or tablet navigate the presentation after both devices opt in. It uses a public relay; see [remote-control.md](docs/remote-control.md) for pairing, security, and limitations.
 
 ## Commands
 

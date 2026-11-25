@@ -4,8 +4,8 @@ An Astro keynote template for turning Markdown and plain-text notes into a sourc
 
 ## Use this template
 
-1. On [sinannar/presentation](https://github.com/sinannar/presentation), select **Use this template**, create a repository, and clone it.
-2. Install Node.js 22.23.4 or newer and run `npm ci`.
+1. On [sinannar/presentation](https://github.com/sinannar/presentation), select **Use this template** and create a repository.
+2. Clone it and install Node.js 22.23.4 or newer, then run `npm ci`; or use the [Dev Container or Codespaces](docs/devcontainer.md).
 3. Edit `site.config.ts` for the title, author, tagline, and supporting-site navigation.
 4. Run `npm run init:presentation` to create a local brief without overwriting an existing one. Put private or local `.md`/`.txt` inputs in `sources/`. Both locations are ignored by Git.
 5. Follow the guided workflow in `docs/authoring.md`, using the included agents and skills when available.
@@ -59,6 +59,15 @@ npm run build            # static production build
 npm test                 # repository tests
 npm run test:production  # verify the current dist/ output
 ```
+
+## Dev Container and Codespaces
+
+The included Dev Container installs GitHub Copilot CLI, Claude Code, Codex CLI,
+and OpenCode alongside Node.js. Open your generated repository in a GitHub
+Codespace or a local VS Code Dev Container; project dependencies install when
+the container is created. Each agent requires its own authentication or
+provider configuration. See [Dev Container setup](docs/devcontainer.md) for
+prerequisites, preview, authentication, updates, and privacy.
 
 ## Agent workflow
 

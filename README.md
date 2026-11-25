@@ -77,3 +77,9 @@ The included workflow validates pull requests and deploys the default branch thr
 Ignored files are not private once committed or uploaded elsewhere. Do not place secrets or sensitive notes in the repository. Curated pages should expose only intentionally selected public links. Choose and add a license before publishing this template for reuse; no license is inferred from the reference projects.
 
 See `PRODUCT.md`, `DESIGN.md`, and `docs/` for scope, content contracts, design rules, deployment, and extension guidance.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for issue reporting, local checks, and
+pull requests. Repositories created from this template can customize or remove
+the inherited contributor guide and issue/PR templates.

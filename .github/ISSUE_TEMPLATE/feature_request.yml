@@ -1,0 +1,28 @@
+name: Feature request
+description: Suggest an improvement to the presentation template.
+title: "[Feature]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Issues are public. Do not include private presentation notes, credentials,
+        pairing codes, or other sensitive information.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or need
+      description: What are you trying to accomplish, and what is difficult today?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed improvement
+      description: Describe the behavior you would find useful.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives and context
+      description: Share workarounds, examples, or accessibility and reuse considerations.

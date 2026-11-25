@@ -1,0 +1,38 @@
+name: Bug report
+description: Report a problem with the presentation template.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the template. Issues are public: do not include
+        private source notes, credentials, pairing codes, or other sensitive data.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include a minimal example or link to a public reproduction, if available.
+      placeholder: |
+        1. Open ...
+        2. Select ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include the browser and version, operating system, Node.js version, and deployment path when relevant.
+      placeholder: "Browser: ...; OS: ...; Node.js: ...; site path: ..."
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add sanitized screenshots, logs, or other details if helpful.

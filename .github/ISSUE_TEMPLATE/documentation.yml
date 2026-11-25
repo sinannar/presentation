@@ -1,0 +1,28 @@
+name: Documentation improvement
+description: Suggest a correction or improvement to the template documentation.
+title: "[Docs]: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Issues are public. Do not include private presentation notes, credentials,
+        pairing codes, or other sensitive information.
+  - type: input
+    id: location
+    attributes:
+      label: Documentation location
+      description: Link to the page or identify the file and section.
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: What should change?
+      description: Describe what is missing, incorrect, or confusing and the improvement you suggest.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Include a public reference or sanitized example if useful.

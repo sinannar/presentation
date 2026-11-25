@@ -22,7 +22,7 @@ data or raw notes. Keep
 presenter-specific details local.
 
 Preserve the searchable map and presenter workflows and their shortcuts: `R` remote,
-`G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated fullscreen,
+`M` and `G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated fullscreen,
 and `?` help. Preserve semantic structure, keyboard access, focus, contrast,
 narrow-screen usability, and reduced motion. Test the resulting experience
 and report actual checks and gaps.

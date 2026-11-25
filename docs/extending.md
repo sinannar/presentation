@@ -9,7 +9,7 @@ per-scene reveals and speaker notes. Notes bundled into the site are public and 
 sensitive data or raw notes. Store presenter-specific details locally.
 
 Preserve the searchable map and presenter workflows: `R` remote,
-`G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated fullscreen,
+`M` and `G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated fullscreen,
 and `?` help. Preserve visible focus, semantic labels, contrast, responsive
 layout, and reduced motion. Test the implemented behavior and report actual
 results; do not assume fullscreen availability or live external systems.

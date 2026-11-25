@@ -32,7 +32,7 @@ through source mapping, human outline approval, and publication review.
 Presenter-specific details are stored locally.
 
 Preserve the searchable map and presenter workflows, including `R` for
-remote, `G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated
+remote, `M` and `G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated
 fullscreen, and `?` help. Test implemented interactions, including focus and
 keyboard behavior; don't claim unverified behavior or external systems are live,
 or that fullscreen happens automatically.

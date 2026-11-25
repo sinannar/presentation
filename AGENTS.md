@@ -46,7 +46,7 @@ other public copy. Presenter-specific details are stored locally, not treated
 as a private server or a live external integration. Preserve evidence and
 human outline and publication review for all factual material.
 
-For the map and presenter workflows, preserve `R` for remote, `G` for
+For the map and presenter workflows, preserve `R` for remote, `M` and `G` for
 the searchable map, `P` for presenter, `N` for notes, `E` for details, `F` for
 user-initiated fullscreen, and `?` for help. Preserve keyboard access, focus,
 contrast, semantic structure, narrow-screen usability, and reduced motion.

@@ -231,16 +231,20 @@ const notesFor = (notes?: { talkingPoints?: string[]; technicalDetails?: string[
         ))}
       </main>
       <nav class="keynote-controls" aria-label="Presentation controls" hidden>
-        <button type="button" class="control-home" data-home>⌂ <span>Home</span></button>
-        <span class="control-divider" aria-hidden="true"></span>
-        <span class="current-scene"><span class="current-dot"></span><span data-scene-name aria-live="polite">{siteConfig.title}</span> <span class="scene-count" data-count></span></span>
-        <button type="button" data-map aria-label="Open presentation map">▦ <span>Map</span></button>
-        <span data-keynote-status role="status"></span>
-        <div class="control-actions">
-          <button type="button" data-prev>← <span>Back</span></button>
-          <button type="button" class="control-next" data-next>Next <span aria-hidden="true">→</span></button>
-          <button type="button" data-help aria-label="Keyboard help">? <span>Help</span></button>
+        <div class="control-breadcrumb">
+          <button type="button" class="control-home" data-home><span aria-hidden="true">⌂</span> <span>Home</span></button>
+          <span class="control-separator" aria-hidden="true">/</span>
+          <span class="current-scene"><span class="current-dot" aria-hidden="true"></span><span data-scene-name aria-live="polite">{siteConfig.title}</span></span>
+          <span class="scene-count"><span class="control-count-label">Scene / step</span> <span data-count></span></span>
         </div>
+        <div class="control-actions">
+          <button type="button" data-map aria-label="Open presentation map"><span aria-hidden="true">▦</span> <span>Map</span></button>
+          <span class="control-divider" aria-hidden="true"></span>
+          <button type="button" data-prev><span aria-hidden="true">←</span> <span>Back</span></button>
+          <button type="button" class="control-next" data-next>Next <span aria-hidden="true">→</span></button>
+          <button type="button" data-help aria-label="Keyboard help"><span aria-hidden="true">?</span> <span>Help</span></button>
+        </div>
+        <span data-keynote-status role="status"></span>
       </nav>
     </div>
     <dialog class="help-dialog" aria-labelledby="help-title" aria-describedby="help-description">
@@ -255,7 +259,7 @@ const notesFor = (notes?: { talkingPoints?: string[]; technicalDetails?: string[
           <div class="help-row"><span><kbd>→</kbd> <kbd>←</kbd> <kbd>Space</kbd></span><p>Reveal steps; clicker Page Up/Down also works</p></div>
           <div class="help-row"><span><kbd>Shift</kbd> + <kbd>←</kbd>/<kbd>→</kbd></span><p>Skip a screen</p></div>
           <div class="help-row"><span><kbd>Home</kbd></span><p>Return to the beginning</p></div>
-          <div class="help-row"><span><kbd>G</kbd></span><p>Open the map</p></div>
+          <div class="help-row"><span><kbd>M</kbd> / <kbd>G</kbd></span><p>Open the map</p></div>
           <div class="help-row"><span><kbd>1</kbd>–<kbd>9</kbd></span><p>Jump to one of the first nine sections</p></div>
         </section>
         <section>

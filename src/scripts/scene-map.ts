@@ -1,4 +1,7 @@
-import { groupSceneMap, searchSceneMap, type SceneMapEntry } from '../lib/scene-map';
+import {
+  groupSceneMap, readSceneMapVisibility, sceneMapSection, searchSceneMap,
+  writeSceneMapVisibility, type SceneMapEntry,
+} from '../lib/scene-map';
 
 export interface SceneMapOptions {
   scenes: HTMLElement[];
@@ -19,6 +22,11 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
   let disposed = false;
   let returnFocus: HTMLElement | null = null;
   let entries: SceneMapEntry[] = [];
+  let showHidden = false;
+  let storage: Storage | undefined;
+  try { storage = window.localStorage; } catch { /* Storage may be blocked. */ }
+  const storageKey = `scene-map:visibility:${window.location.pathname}`;
+  const visibility = readSceneMapVisibility(storage, storageKey);
 
   function element<K extends keyof HTMLElementTagNameMap>(
     tag: K, className: string, text?: string,
@@ -58,7 +66,13 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
   const results = element('div', 'scene-map__results');
   results.id = `${prefix}-results`;
   search.setAttribute('aria-controls', results.id);
-  dialog.append(header, hint, label, search, status, results);
+  const toolbar = element('div', 'scene-map__toolbar');
+  const showHiddenButton = element('button', 'scene-map__visibility-toggle');
+  showHiddenButton.type = 'button';
+  const restoreAllButton = element('button', 'scene-map__restore-all', 'Restore all');
+  restoreAllButton.type = 'button';
+  toolbar.append(status, showHiddenButton, restoreAllButton);
+  dialog.append(header, hint, label, search, toolbar, results);
   document.body.append(dialog);
 
   function restoreFocus() {
@@ -80,29 +94,80 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
 
   function render() {
     const matches = searchSceneMap(entries, search.value);
+    const isHidden = (entry: SceneMapEntry) =>
+      visibility.scenes.has(entry.id) || visibility.sections.has(sceneMapSection(entry));
+    const visible = matches.filter((entry) => !isHidden(entry));
+    const displayed = showHidden ? matches : visible;
+    const hiddenCount = entries.filter(isHidden).length;
     results.replaceChildren();
-    status.textContent = `${matches.length} of ${entries.length} scenes`;
-    if (!matches.length) {
+    const currentEntry = entries.find((entry) => entry.index === getIndex());
+    status.textContent = `${visible.length} of ${entries.length} scenes visible${hiddenCount ? ` · ${hiddenCount} hidden` : ''}${currentEntry && isHidden(currentEntry) ? ' · Current scene hidden from map' : ''}`;
+    showHiddenButton.textContent = showHidden ? 'Hide hidden items' : `Show hidden items (${hiddenCount})`;
+    showHiddenButton.setAttribute('aria-pressed', String(showHidden));
+    restoreAllButton.hidden = !visibility.scenes.size && !visibility.sections.size;
+    if (!displayed.length) {
       results.append(element('p', 'scene-map__empty', entries.length
-        ? 'No scenes match. Try another title, section, or idea.'
+        ? hiddenCount && !search.value.trim()
+          ? 'All scenes are hidden from the map. Show hidden items or restore all.'
+          : 'No visible scenes match. Try another search or show hidden items.'
         : 'There are no scenes to explore yet.'));
       return;
     }
     const current = getIndex();
-    for (const [groupIndex, group] of groupSceneMap(matches).entries()) {
+    const quickEntries = visible.filter((entry) => ['home', 'sections', 'highlights'].includes(entry.kind));
+    if (quickEntries.length) {
+      const quick = element('section', 'scene-map__quick');
+      const quickTitle = element('h3', 'scene-map__quick-title', 'Quick navigation');
+      const cards = element('div', 'scene-map__quick-cards');
+      quick.append(quickTitle, cards);
+      for (const entry of quickEntries) {
+        const card = element('button', 'scene-map__quick-card scene-map__destination');
+        card.type = 'button';
+        card.dataset.sceneId = entry.id;
+        if (entry.index === current) card.setAttribute('aria-current', 'location');
+        card.append(
+          element('span', 'scene-map__quick-kind', entry.kind),
+          element('span', 'scene-map__quick-name', entry.title),
+          element('span', 'scene-map__quick-arrow', '↗'),
+        );
+        card.addEventListener('click', () => navigate(entry.index, 0));
+        cards.append(card);
+      }
+      results.append(quick);
+    }
+    const grid = element('div', 'scene-map__grid');
+    results.append(grid);
+    for (const [groupIndex, group] of groupSceneMap(displayed).entries()) {
       const section = element('section', 'scene-map__section');
+      const sectionHeader = element('div', 'scene-map__section-header');
       const groupTitle = element('h3', 'scene-map__section-title', group.section);
       groupTitle.id = `${prefix}-group-${groupIndex}`;
       section.setAttribute('aria-labelledby', groupTitle.id);
       const count = element('span', 'scene-map__section-count', String(group.entries.length));
       count.setAttribute('aria-label', `${group.entries.length} scenes`);
       groupTitle.append(count);
+      const sectionHidden = visibility.sections.has(group.section);
+      const sectionControl = element('button', 'scene-map__manage', sectionHidden ? 'Restore section' : 'Hide section');
+      sectionControl.type = 'button';
+      sectionControl.setAttribute('aria-label', `${sectionHidden ? 'Restore' : 'Hide'} section ${group.section}${sectionHidden ? ' in' : ' from'} map`);
+      sectionControl.addEventListener('click', () => {
+        if (sectionHidden) visibility.sections.delete(group.section);
+        else visibility.sections.add(group.section);
+        writeSceneMapVisibility(storage, storageKey, visibility);
+        render();
+        showHiddenButton.focus();
+      });
+      sectionHeader.append(groupTitle, sectionControl);
       const list = element('ol', 'scene-map__list');
       for (const entry of group.entries) {
         const item = element('li', 'scene-map__item');
+        const hidden = isHidden(entry);
+        const individuallyHidden = visibility.scenes.has(entry.id);
+        if (hidden) item.classList.add('scene-map__item--hidden');
         const button = element('button', 'scene-map__destination');
         button.type = 'button';
         button.dataset.sceneId = entry.id;
+        button.disabled = hidden;
         if (entry.index === current) {
           item.classList.add('scene-map__item--current');
           button.setAttribute('aria-current', 'location');
@@ -112,13 +177,28 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
         const copy = element('span', 'scene-map__copy');
         const meta = element('span', 'scene-map__meta', [
           entry.kind, entry.featured ? 'Featured' : '', entry.index === current ? 'Current scene' : '',
+          hidden ? (sectionHidden ? 'Hidden by section' : 'Hidden from map') : '',
         ].filter(Boolean).join(' · '));
         copy.append(meta, element('span', 'scene-map__scene-title', entry.title));
         if (entry.summary) copy.append(element('span', 'scene-map__summary', entry.summary));
         button.append(number, copy);
         button.addEventListener('click', () => navigate(entry.index, 0));
         item.append(button);
-        if (entry.steps.length) {
+        const itemControl = element('button', 'scene-map__manage scene-map__item-manage', individuallyHidden ? 'Restore' : 'Hide');
+        itemControl.type = 'button';
+        itemControl.disabled = sectionHidden && !individuallyHidden;
+        itemControl.setAttribute('aria-label', itemControl.disabled
+          ? `${entry.title} is hidden by section; restore the section first`
+          : `${individuallyHidden ? 'Restore' : 'Hide'} ${entry.title}${individuallyHidden ? ' in' : ' from'} map`);
+        itemControl.addEventListener('click', () => {
+          if (individuallyHidden) visibility.scenes.delete(entry.id);
+          else visibility.scenes.add(entry.id);
+          writeSceneMapVisibility(storage, storageKey, visibility);
+          render();
+          showHiddenButton.focus();
+        });
+        item.append(itemControl);
+        if (entry.steps.length && !hidden) {
           const details = element('details', 'scene-map__steps');
           details.append(element('summary', '', `Reveal steps (${entry.steps.length})`));
           const steps = element('ol', 'scene-map__step-list');
@@ -136,13 +216,24 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
         }
         list.append(item);
       }
-      section.append(groupTitle, list);
-      results.append(section);
+      section.append(sectionHeader, list);
+      grid.append(section);
     }
   }
 
   closeButton.addEventListener('click', close, { signal: events.signal });
   search.addEventListener('input', render, { signal: events.signal });
+  showHiddenButton.addEventListener('click', () => {
+    showHidden = !showHidden;
+    render();
+  }, { signal: events.signal });
+  restoreAllButton.addEventListener('click', () => {
+    visibility.scenes.clear();
+    visibility.sections.clear();
+    writeSceneMapVisibility(storage, storageKey, visibility);
+    render();
+    showHiddenButton.focus();
+  }, { signal: events.signal });
   // Keep the presentation's global shortcuts out, without overriding native
   // text editing, Tab order, details toggling, or button activation.
   dialog.addEventListener('keydown', (event) => {
@@ -154,7 +245,7 @@ export function installSceneMap({ scenes, getIndex, jump }: SceneMapOptions) {
     }
     if (event.altKey || event.ctrlKey || event.metaKey || event.isComposing) return;
     const destinations = [...results.querySelectorAll<HTMLButtonElement>('.scene-map__destination, .scene-map__step')]
-      .filter((button) => !button.closest('details:not([open])'));
+      .filter((button) => !button.disabled && !button.closest('details:not([open])'));
     if (event.target === search && event.key === 'Enter' && destinations[0]) {
       event.preventDefault();
       destinations[0].click();

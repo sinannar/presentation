@@ -17,6 +17,8 @@ export function keynoteShortcut(
     case 'F': return 'fullscreen';
     case 'r':
     case 'R': return 'remote';
+    case 'm':
+    case 'M':
     case 'g':
     case 'G': return 'map';
     case 'p':

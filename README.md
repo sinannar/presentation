@@ -18,10 +18,15 @@ Press `R` to open the optional remote control and pair a phone or tablet after b
 The keynote groups content by category and supports highlights selected by the
 existing `featured` flag, optional scene reveals and speaker notes, a searchable
 map, and presenter workflows. Configure content without assuming a fixed number
-of items. Shortcuts include `G` for map,
+of items. Shortcuts include `M` (or `G`) for map,
 `P` for presenter, `N` for notes, and `E` for details; `R` remains remote, `F`
 requests fullscreen, and `?` opens help. Fullscreen requires user action and
 may be unavailable.
+
+In the map, hide individual scenes or entire sections and use **Show hidden
+items** or **Restore all** to bring them back. This preference is stored in
+the current browser when available; it only changes the map, not the
+presentation or what other visitors see.
 
 Speaker notes bundled into a site are **public**: never include sensitive
 information or raw notes. Presenter-specific details are stored locally.

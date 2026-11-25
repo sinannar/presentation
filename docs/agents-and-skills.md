@@ -28,7 +28,7 @@ the map and presenter experience. Bundled speaker
 notes are public, never a place for sensitive data or raw notes. Presenter
 details are stored locally. See [the content model](content-model.md).
 
-Reserve `R` for remote, `G` for searchable map, `P` for presenter, `N` for
+Reserve `R` for remote, `M` and `G` for searchable map, `P` for presenter, `N` for
 notes, `E` for details, `F` for user-initiated fullscreen, and `?` for help.
 The map, presenter and associated shortcuts are implemented; report actual
 browser checks separately. Fullscreen can be unavailable and is never automatic.

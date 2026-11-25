@@ -41,6 +41,27 @@ test('built keynote integrates map, reveals, notes, details, and shortcuts', asy
     assert.equal(active().dataset.scene, 'home');
     const controls = document.querySelector<HTMLElement>('.keynote-controls')!;
     assert.equal(controls.hidden, false);
+    const home = controls.querySelector<HTMLButtonElement>('[data-home]')!;
+    const back = controls.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = controls.querySelector<HTMLButtonElement>('[data-next]')!;
+    const sceneName = controls.querySelector<HTMLElement>('[data-scene-name]')!;
+    const count = controls.querySelector<HTMLElement>('[data-count]')!;
+    assert.equal(back.disabled, true);
+    assert.match(count.textContent || '', /^1 \/ \d+$/);
+    next.click();
+    assert.equal(active().dataset.scene, 'sections');
+    assert.equal(sceneName.textContent, active().querySelector('h2')!.textContent);
+    assert.match(count.textContent || '', /^2 \/ \d+$/);
+    back.click();
+    assert.equal(active().dataset.scene, 'home');
+    controls.querySelector<HTMLButtonElement>('[data-map]')!.click();
+    const map = document.querySelector<HTMLDialogElement>('.scene-map')!;
+    assert.equal(map.open, true);
+    map.close();
+    controls.querySelector<HTMLButtonElement>('[data-help]')!.click();
+    const help = document.querySelector<HTMLDialogElement>('.help-dialog')!;
+    assert.equal(help.open, true);
+    help.close();
 
     key('p');
     assert.equal(channels.length, 1);
@@ -55,8 +76,7 @@ test('built keynote integrates map, reveals, notes, details, and shortcuts', asy
     channels[0].onmessage!({ data: { type: 'closed' } });
     key('Home');
 
-    key('g');
-    const map = document.querySelector<HTMLDialogElement>('.scene-map')!;
+    key('m');
     assert.equal(map.open, true);
     const firstContent = document.querySelector<HTMLElement>('[data-kind="content"]')!;
     const id = firstContent.dataset.scene!;
@@ -70,8 +90,10 @@ test('built keynote integrates map, reveals, notes, details, and shortcuts', asy
     const reveals = [...firstContent.querySelectorAll<HTMLElement>('[data-reveal]')];
     assert.ok(reveals.length);
     assert.equal(reveals[0].hidden, true);
+    assert.match(count.textContent || '', / · 1 \/ \d+$/);
     key('ArrowRight');
     assert.equal(reveals[0].hidden, false);
+    assert.match(count.textContent || '', / · 2 \/ \d+$/);
     key('ArrowLeft');
     assert.equal(reveals[0].hidden, true);
     key('s');
@@ -93,6 +115,8 @@ test('built keynote integrates map, reveals, notes, details, and shortcuts', asy
     assert.equal(details.open, false);
     key('t');
     assert.equal(active().dataset.scene, 'highlights');
+    home.click();
+    assert.equal(active().dataset.scene, 'home');
 
     key('h');
     assert.equal(controls.hidden, true);

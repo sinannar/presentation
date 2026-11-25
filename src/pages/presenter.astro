@@ -1,0 +1,35 @@
+---
+import '../styles/presenter.css';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Presenter view</title>
+  </head>
+  <body class="presenter-page">
+    <main class="presenter-layout">
+      <header class="presenter-header"><div><h1>Presenter view</h1><p id="presenter-status" role="status" aria-live="polite">Connecting locally…</p></div><div><span id="presenter-timer" aria-label="Elapsed time">00:00</span> <button id="presenter-reset" type="button">Reset timer</button></div></header>
+      <div class="presenter-grid">
+        <section class="presenter-preview"><h2>Current</h2><div class="presenter-frame"><iframe id="presenter-current" title="Current scene preview" tabindex="-1" sandbox="allow-scripts allow-same-origin"></iframe></div><p id="presenter-position">Waiting for presentation…</p><p id="presenter-summary"></p></section>
+        <section class="presenter-next"><h2>Up next</h2><div class="presenter-frame" id="presenter-next-frame" hidden><iframe id="presenter-next-preview" title="Next scene preview" tabindex="-1" sandbox="allow-scripts allow-same-origin"></iframe></div><p id="presenter-next-title">—</p></section>
+        <section class="presenter-window-notes">
+          <div class="presenter-sidebar-tabs" role="group" aria-label="Presenter sidebar">
+            <button type="button" id="presenter-show-notes" aria-pressed="true" aria-controls="presenter-notes-view">Notes (N)</button>
+            <button type="button" id="presenter-show-map" aria-pressed="false" aria-controls="presenter-map-view">Map (G)</button>
+          </div>
+          <div id="presenter-notes-view"><h2>Speaker notes</h2><div id="presenter-notes"></div></div>
+          <div id="presenter-map-view" hidden><h2>Scene map</h2><div id="presenter-map" class="presenter-map"></div></div>
+        </section>
+      </div>
+      <nav class="presenter-actions" aria-label="Presentation navigation"><button id="presenter-home" type="button" disabled>Home</button><button id="presenter-previous" type="button" disabled>← Previous</button><button id="presenter-next" type="button" disabled>Next →</button></nav>
+      <p class="presenter-muted">Arrow keys or Space: navigate · Home: first scene · N: notes · G: map</p>
+    </main>
+    <script>
+      import { initializePresenterWindow } from '../scripts/presenter-window';
+      initializePresenterWindow();
+    </script>
+  </body>
+</html>

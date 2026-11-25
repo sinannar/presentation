@@ -21,6 +21,20 @@ components, and features when requested, preserving accessibility, focus,
 keyboard controls, and reduced motion. Do not move content into a publishable
 collection or remove a draft flag without explicit publication approval.
 
+Curate configurable category/section groups and highlights with the existing
+`featured` flag, without a fixed item count. Curate optional incremental reveals
+and per-scene speaker notes using `docs/content-model.md`. Bundled speaker
+notes are public, so never include sensitive data or raw notes; factual notes
+and reveals need evidence and human
+outline and publication review. Store presenter-specific details locally.
+
+Preserve the searchable map and presenter workflows and shortcuts: `R` for remote,
+`G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated fullscreen,
+and `?` help. Preserve semantic structure, visible focus, contrast, keyboard
+access, narrow-screen usability, and reduced motion. Report actual tests and
+remaining checks; do not imply fullscreen is automatic or external systems
+are live.
+
 Example style-only flow:
 
 ```text

@@ -20,6 +20,19 @@ changes, it does not require source research or outline approval.
 5. **Publication review** checks grounding, frontmatter, links, paths, and
    boundaries. Publication remains a separate human-authorized action.
 
+The outline planner proposes configurable category/section groups and
+highlights using `featured`, with no fixed item count. The editor curates
+optional reveals and per-scene speaker notes from approved evidence, then
+adapts the existing keynote. The reviewer checks those public materials and
+the map and presenter experience. Bundled speaker
+notes are public, never a place for sensitive data or raw notes. Presenter
+details are stored locally. See [the content model](content-model.md).
+
+Reserve `R` for remote, `G` for searchable map, `P` for presenter, `N` for
+notes, `E` for details, `F` for user-initiated fullscreen, and `?` for help.
+The map, presenter and associated shortcuts are implemented; report actual
+browser checks separately. Fullscreen can be unavailable and is never automatic.
+
 ## Profiles, roles, and skills
 
 The four profiles in `.github/agents/` are convenient Copilot profiles. Their

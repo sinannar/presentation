@@ -29,6 +29,20 @@ test('production keynote contains styled presentation controls', () => {
   assert.match(html + css, /keynote-stage/, 'the keynote stylesheet must be included in the output');
 });
 
+test('starter overview and highlights link to real published scenes', () => {
+  const html = readFileSync(join(dist, 'index.html'), 'utf8');
+  const sceneIds = new Set([...html.matchAll(/\bdata-scene="([^"]+)"/g)].map((match) => match[1]));
+  assert.ok(sceneIds.has('home') && sceneIds.has('sections') && sceneIds.has('highlights'));
+  const targets = [...html.matchAll(/\bdata-jump-scene="([^"]+)"/g)].map((match) => match[1]);
+  assert.ok(targets.includes('sections') && targets.includes('highlights'));
+  for (const target of targets) assert.ok(sceneIds.has(target), `unknown scene target: ${target}`);
+  assert.match(html, /data-featured="true"/);
+  assert.match(html, /\bdata-reveal(?:[=>\s])/);
+  assert.doesNotMatch(html, /<[^>]*data-reveal[^>]*\shidden(?:[=>\s])/);
+  assert.match(html, /data-notes="/);
+  assert.ok(existsSync(join(dist, 'presenter', 'index.html')), 'presenter route is generated');
+});
+
 test('built MQTT browser module supports a native WebSocket', async () => {
   const modulePath = files(join(dist, '_astro')).find((file) => /\/mqtt\.esm\.[^/]+\.js$/.test(file));
   assert.ok(modulePath, 'MQTT browser module is present');

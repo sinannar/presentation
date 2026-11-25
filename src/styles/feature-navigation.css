@@ -1,0 +1,19 @@
+.js [data-reveal][hidden] { display: none !important; }
+.keynote-preview .keynote-controls { display: none !important; }
+.keynote-blackout {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #000;
+}
+.keynote-blackout[hidden] { display: none; }
+.keynote-blackout button {
+  color: #fff;
+  background: #161616;
+  border: 1px solid #777;
+  border-radius: .5rem;
+  padding: .7rem 1rem;
+  font: inherit;
+}

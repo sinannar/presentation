@@ -19,9 +19,23 @@ copy. For factual authoring, combine this skill with `source-grounding`,
 2. Identify the smallest extension point. Prefer existing scene data, CSS
    variables, components, and controls over a parallel implementation.
 3. Preserve keyboard navigation, focus visibility, semantic structure, and
-   `prefers-reduced-motion`. Keep the presentation usable on narrow screens.
+   `prefers-reduced-motion`. Check contrast and keep the presentation usable on
+   narrow screens.
 4. Validate with the smallest relevant command, normally `npm run check` for
    application changes. Do not commit, publish, or deploy automatically.
+
+Plan configurable category/section groups and highlights using the existing
+`featured` flag, without a fixed item count. Optional incremental reveals and
+per-scene speaker notes use the fields in `docs/content-model.md`. Bundled speaker notes are public:
+never put sensitive data or raw notes there. Curate factual notes and reveals
+through source mapping, human outline approval, and publication review.
+Presenter-specific details are stored locally.
+
+Preserve the searchable map and presenter workflows, including `R` for
+remote, `G` map, `P` presenter, `N` notes, `E` details, `F` user-initiated
+fullscreen, and `?` help. Test implemented interactions, including focus and
+keyboard behavior; don't claim unverified behavior or external systems are live,
+or that fullscreen happens automatically.
 
 ## Hands-on examples
 
@@ -32,6 +46,6 @@ copy. For factual authoring, combine this skill with `source-grounding`,
 `src/scripts/keynote.ts`; add claims only from an approved factual brief.
 
 **Change interaction:** reuse existing controls and focus behavior; verify
-Arrow keys, Home/End, and reduced motion rather than adding a second controller.
+Arrow keys, Home, and reduced motion rather than adding a second controller.
 
 Report exact files changed, the command run, and remaining visual checks.

@@ -125,7 +125,7 @@ export function initializeRemotePage(): void {
   const updateControls = () => {
     previous.disabled = !current || pending || current.index === 0;
     next.disabled = !current || pending || current.index >= current.count - 1;
-    position.textContent = current ? `Screen ${current.index + 1} of ${current.count}` : 'No presentation state yet.';
+    position.textContent = current ? `Step ${current.index + 1} of ${current.count}` : 'No presentation state yet.';
   };
   const stop = () => {
     generation++;

@@ -5,6 +5,9 @@ This repository is a reusable, one-site-per-repository keynote template. It star
 ## Version 1 includes
 
 - A styled, keyboard-navigable keynote at `/`, with optional fullscreen and `?` help.
+- Content-driven section and highlights overviews, a searchable scene map, and optional progressive reveals.
+- A presenter window, local presenter details, public speaker notes, swipe and clicker navigation, and blackout controls.
+- Opt-in phone or tablet remote control through an encrypted public-relay connection.
 - Supporting `/docs/` and `/news/` pages.
 - Agent-assisted changes to the existing presentation's content, theme, styling, animations, and components.
 - Curated Markdown content with validated frontmatter.
@@ -15,8 +18,8 @@ This repository is a reusable, one-site-per-repository keynote template. It star
 
 ## Version 1 excludes
 
-Presenter mode, remote control, PDF/DOCX/PPTX ingestion, web crawling, automatic research, databases, logins, CMS editing, and hosted model services.
+PDF/DOCX/PPTX ingestion, web crawling, automatic research, databases, logins, CMS editing, and hosted model services.
 
 ## Publication boundary
 
-`sources/` and `authoring/` are local working areas. Only intentional content under `src/content/` and public assets are built. A file being ignored by Git is not a privacy guarantee.
+`sources/` and `authoring/` are local working areas. Only intentional content under `src/content/` and public assets are built. Bundled speaker notes are public. A file being ignored by Git is not a privacy guarantee.

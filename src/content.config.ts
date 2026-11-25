@@ -10,6 +10,12 @@ const common = {
   draft: z.boolean().default(false),
   featured: z.boolean().default(false),
   sourceRefs: z.array(z.string()).default([]),
+  speakerNotes: z.object({
+    talkingPoints: z.array(z.string()).default([]),
+    technicalDetails: z.array(z.string()).default([]),
+    transition: z.string().default(''),
+  }).default({ talkingPoints: [], technicalDetails: [], transition: '' }),
+  reveals: z.array(z.string()).default([]),
 };
 
 const docs = defineCollection({

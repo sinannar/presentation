@@ -17,9 +17,9 @@ The starter keynote integrates the standalone remote page in `src/scripts/keynot
 ```ts
 const remoteListeners = new Set<() => void>();
 const remote = installKeynoteRemote({
-  getIndex: () => current,
-  getCount: () => scenes.length,
-  setIndex: (index) => render(index, true, true),
+  getIndex: () => flatPosition(revealCounts, position),
+  getCount: () => totalPositions,
+  setIndex: (index) => render(positionFromFlat(revealCounts, index), true, true),
   onNavigate: (listener) => {
     remoteListeners.add(listener);
     return () => remoteListeners.delete(listener);
@@ -29,4 +29,4 @@ const remote = installKeynoteRemote({
 
 Declare `remoteListeners` before `render`, and invoke its listeners at the end of **every** `render` call after `current` changes, including hash, keyboard, and local navigation: `remoteListeners.forEach((listener) => listener());`. Call `remote.open()` for the **R** shortcut, and `remote.dispose()` if the keynote is removed. Do not mount more than once.
 
-The relay protocol uses separate public-topic-scoped host and guest topics, QoS 0 and no retained publishes. It ignores retained, unauthenticated, replayed, malformed, oversized and out-of-range messages. Delivery is not guaranteed; out-of-order messages may be discarded, and stale or missing responses may require a manual rejoin. Tests use an in-memory mock transport and do not contact the broker.
+The relay protocol uses separate public-topic-scoped host and guest topics, QoS 0 and no retained publishes. It navigates sequential reveal steps as well as screens. It ignores retained, unauthenticated, replayed, malformed, oversized and out-of-range messages. Delivery is not guaranteed; out-of-order messages may be discarded, and stale or missing responses may require a manual rejoin. Automated tests use an in-memory mock transport and do not contact the broker.

@@ -14,6 +14,6 @@ and `?` help. Preserve visible focus, semantic labels, contrast, responsive
 layout, and reduced motion. Test the implemented behavior and report actual
 results; do not assume fullscreen availability or live external systems.
 
-New skills belong in `.agents/skills/<name>/SKILL.md`. New Copilot agents belong in `.github/agents/<name>.agent.md` and should reference a portable role under `.agents/roles/`. Update `AGENTS.md`, `README.md`, and `docs/agents-and-skills.md` when adding one.
+New skills belong in `.agents/skills/<name>/SKILL.md`. Put canonical role instructions in `.agents/roles/` and a Copilot discovery profile in `.github/agents/<name>.agent.md` that explicitly asks the agent to read the role. This is a prompt, not an automatic include. Update `AGENTS.md`, `README.md`, and `docs/agents-and-skills.md` when adding one.
 
 The keynote consumes the same curated docs and news as the supporting pages. Extend its scene rendering without duplicating source facts.

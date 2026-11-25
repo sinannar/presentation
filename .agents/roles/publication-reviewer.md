@@ -10,7 +10,8 @@ resolved links and paths, draft flags, and alignment with the approved outline.
 For visual changes, check the requested keynote behavior, accessibility,
 reduced motion, and regressions without demanding an outline. Run
 `npm run validate:agents` and the relevant content check. Return findings and a
-recommendation only. Never commit, publish, or deploy.
+recommendation with severity and exact file/line references. Never commit,
+publish, deploy, remove a draft flag, or change unrelated files.
 
 Review category/section grouping and `featured` highlights without assuming a
 fixed count. Check factual reveals and speaker notes against evidence and the

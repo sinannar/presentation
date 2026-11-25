@@ -35,9 +35,17 @@ browser checks separately. Fullscreen can be unavailable and is never automatic.
 
 ## Profiles, roles, and skills
 
-The four profiles in `.github/agents/` are convenient Copilot profiles. Their
-matching `.agents/roles/` files are portable, agent-neutral playbooks. Skills
-cover source grounding, outline approval, Markdown authoring, keynote
+The four profiles in `.github/agents/` are Copilot discovery entry points.
+Each asks the agent to read its matching `.agents/roles/` playbook, the
+canonical agent-neutral role instructions. Edit the playbook when changing a
+role; keep the profile's Copilot metadata and reference in sync. The reference
+is a prompt to read a file, not an automatic include or a guarantee the agent
+will follow it. Other agent hosts can read the playbooks directly; automatic
+discovery outside Copilot is not assumed.
+
+GitHub documents `.github/agents/` as the repository-level location for
+[custom agent profiles](https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/create-custom-agents).
+Skills cover source grounding, outline approval, Markdown authoring, keynote
 customization, publication boundaries, and asset validation.
 
 ## Tool discovery
